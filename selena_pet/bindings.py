@@ -58,19 +58,29 @@ def playback_seconds(binding,duration_ms,pingpong_ms):
 
 class PlaybackController:
     """One entry per real event; finished one-shots do not retrigger on polling."""
-    def __init__(self,resolve,duration,now=0):
+    def __init__(self,resolve,duration,now=0,speaking=None):
         self.resolve=resolve; self.duration=duration; self.state='idle'; self.started=now; self.serial=0
         self.live_state='idle'; self.live_key=None; self.consumed_key=None; self.owner='live'; self.hard_deadline=None
+        # speaking(serial): the line started by that entry is still being said, so its expression stays.
+        self.speaking=speaking or (lambda serial:False); self.quiet_exit=False
     def enter(self,state,now,owner='interaction',hard_limit=None):
-        self.state=state; self.started=now; self.owner=owner; self.serial+=1
+        self.state=state; self.started=now; self.owner=owner; self.serial+=1; self.quiet_exit=False
         self.hard_deadline=now+hard_limit if hard_limit is not None else None
+    def finish_when_quiet(self,now):
+        """Leave this entry as soon as its line has been said (at once if it has none)."""
+        self.quiet_exit=True; self.tick(now)
     def set_live(self,state,key,now):
         changed=key!=self.live_key; self.live_state=state; self.live_key=key
         if changed and self.owner not in ('preview','notification') and (self.serial==0 or self.resolve(self.state)['interruptible']): self.enter(state,now,'live')
     def resume(self,now): self.enter('idle' if self.consumed_key==self.live_key else self.live_state,now,'live')
     def tick(self,now):
-        b=self.resolve(self.state); duration,ping=self.duration(b['asset']); deadline=playback_seconds(b,duration,ping)
         hard=self.hard_deadline is not None and now>=self.hard_deadline
+        # The expression lasts as long as its own line: a one-shot GIF rests on its last frame, a loop keeps looping.
+        if not hard and self.speaking(self.serial): return
+        if self.quiet_exit and not hard:
+            if self.state==self.live_state: self.consumed_key=self.live_key
+            self.resume(now); return
+        b=self.resolve(self.state); duration,ping=self.duration(b['asset']); deadline=playback_seconds(b,duration,ping)
         if not hard and (b['next_state']=='hold' or deadline is None or now-self.started<deadline): return
         target=b['next_state']
         if target=='auto' or hard:

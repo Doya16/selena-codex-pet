@@ -26,6 +26,19 @@ class PcmPlayer(QObject):
         self.running=False; self._position=0
         if self.sink: self.sink.stop(); self.sink.deleteLater(); self.sink=None
         if self.buffer: self.buffer.close(); self.buffer.deleteLater(); self.buffer=None
+    def fade_out(self,ms=150):
+        """Let the current line die away over a moment, leaving the player free for the next one at once."""
+        sink,buffer=self.sink,self.buffer
+        if not sink or not self.running: self.stop(); return
+        self._identity_timer.stop(); self.running=False; self._position=0; self.sink=None; self.buffer=None
+        try: sink.stateChanged.disconnect(self._state)
+        except (RuntimeError,TypeError): pass
+        start=sink.volume(); steps=6; done=[0]; timer=QTimer(self); timer.setInterval(max(1,ms//steps))
+        def step():
+            done[0]+=1; sink.setVolume(start*max(0.0,1-done[0]/steps))
+            if done[0]>=steps:
+                timer.stop(); sink.stop(); sink.deleteLater(); buffer.close(); buffer.deleteLater(); timer.deleteLater()
+        timer.timeout.connect(step); timer.start()
     def fail(self,message):
         self.stop(); self._error=QMediaPlayer.Error.ResourceError; self.errorOccurred.emit(self._error,message)
     def setSource(self,url):

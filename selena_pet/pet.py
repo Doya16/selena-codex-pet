@@ -11,7 +11,7 @@ from .bindings import BindingMap,PlaybackController,MANUAL,playback_seconds
 from .studio import BindingEditor
 from .preferences import Preferences
 from .appearance import appearance,load_fonts,stylesheet,font
-from .audio_player import VoicePlayer
+from .audio_player import VoicePlayer,TASK_LINES
 from .config_io import save_atomic,migrate_settings
 from .renderer import PetRenderer,SpeechBubble
 from .binding_editor import TRIGGERS
@@ -119,12 +119,13 @@ class Pet(PetRenderer,QWidget):
         self.resize(round(340*self.scale_factor),round(438*self.scale_factor))
         self.cache=collections.OrderedDict(); self.animation_id=self.binding('idle')['asset']; self.animation=self.get_animation(self.animation_id)
         self.anim_start=time.monotonic(); self.last_image=self.animation.frames[0]
-        self.controller=PlaybackController(self.binding,self.animation_duration,time.monotonic()); self.last_serial=-1
+        # An expression whose own line is still being said stays until the line ends (see VoicePlayer.owner).
+        self.controller=PlaybackController(self.binding,self.animation_duration,time.monotonic(),speaking=lambda serial:hasattr(self,'voice') and self.voice.speaking(serial)); self.last_serial=-1
         self.transition_old=None; self.transition_start=0
         self.state='idle'; self.override=None; self.override_until=0; self.override_text=''; self.preview_id=None
         self.bubble_until=time.monotonic()+12
         self.live_status={'state':'idle','message':'','title':''}
-        self.notifications=collections.deque(); self.notification=None; self.notification_until=0; self.notification_seen=set()
+        self.notifications=collections.deque(); self.notification=None; self.notification_until=0; self.notification_seen=set(); self.held_notification=None
         self.quota_data={}; self.thread_list=[]; self.panel=None; self.binding_editor=None
         self.monitor=Monitor(self.options['codex_home'] or CODEX_HOME); self.monitor.selected=self.settings.get('thread','auto')
         self.rate_client=RateClient(self.options['codex_executable'],self.options['codex_home']); self.worker=BridgeWorker(); self.stop_event=threading.Event(); self.refresh_event=threading.Event()
@@ -136,7 +137,7 @@ class Pet(PetRenderer,QWidget):
         from .client_lifetime import ClientLifetime
         self.client_lifetime=ClientLifetime()
         self.worker.client_exited.connect(self.on_client_exit)
-        self.voice=VoicePlayer(ROOT,self); self.preview_audio_clip=None
+        self.voice=VoicePlayer(ROOT,self); self.preview_audio_clip=None; self.voice.accept=self.accept_queued_line
         self.bubble_window=SpeechBubble(self); self.voice.changed.connect(self.on_voice_changed)
         from .cost_float import CostFloat
         self.cost_float=CostFloat(self)
@@ -350,7 +351,10 @@ class Pet(PetRenderer,QWidget):
 
     def tick(self):
         now=time.monotonic()
-        if self.notification and self.controller.owner!='notification': self.notification=None
+        if self.notification and self.controller.owner!='notification':
+            # Picked up mid-line: once she is put down, the completion comes back until its line ends.
+            self.held_notification=self.notification if self.voice.line_state()==self.notification['state'] else None
+            self.notification=None
         if self.notification and now>=self.notification_until and not self.voice.busy:
             self.notification=None; self.controller.resume(now); self.edge_dock.tuck_later()
         if not self.notification and self.notifications and now>=self.cost_hold_until and not self.voice.busy and self.controller.owner!='preview' and self.drag_offset is None:
@@ -363,6 +367,11 @@ class Pet(PetRenderer,QWidget):
             self.play_cost_float(self.notification)
             self.bubble_until=self.notification_until
         if not self.notification: self.controller.tick(now)
+        if self.held_notification and self.controller.owner=='live':
+            held,self.held_notification=self.held_notification,None
+            if self.voice.line_state()==held['state']:
+                self.notification=held; self.notification_until=now; self.bubble_until=now
+                self.controller.enter(held['state'],now,'notification')
         self.present_turn_cost(now)
         placer=self.cost_float_placer
         if placer and placer.isVisible():
@@ -384,7 +393,7 @@ class Pet(PetRenderer,QWidget):
             binding=self.binding(self.state)
             if self.controller.owner=='preview' and self.preview_audio_clip is not None:
                 binding=dict(binding,audio_clips=[dict(self.preview_audio_clip,enabled=True)])
-            if not self.fullscreen_guard.hidden: self.voice.trigger(self.state,binding,self.options,preview=self.controller.owner=='preview',task=task_key(self.notification or self.live_status),notification=self.controller.owner=='notification'); self.update_layout()
+            if not self.fullscreen_guard.hidden: self.voice.trigger(self.state,binding,self.options,preview=self.controller.owner=='preview',task=task_key(self.notification or self.live_status),notification=self.controller.owner=='notification',owner=self.controller.serial,barge=self.controller.owner=='interaction'); self.update_layout()
         self.lock_button.refresh_visibility()
         self.pointer_mode.refresh()
         self.update_bubble()
@@ -597,7 +606,7 @@ class Pet(PetRenderer,QWidget):
         if self.quota_resize.active: super().leaveEvent(event); return
         self.unsetCursor()
         self.hover_timer.stop(); self.hovered=False
-        if self.override=='hover': self.clear_override()
+        if self.override=='hover': self.release_hover()
         self.edge_dock.hover_out()
         super().leaveEvent(event)
 
@@ -645,12 +654,29 @@ class Pet(PetRenderer,QWidget):
 
     def react(self,state,duration=None):
         if self.locked: return
+        line=self.voice.line_state()
+        # A line about the task is said in full; meanwhile only picking her up responds (silently).
+        if line in TASK_LINES and state not in ('drag','drop'): return
+        # Still saying this very reaction's line: let her finish it.
+        if line==state and state not in ('drag','drop') and self.voice.speaking(self.controller.serial): return
         self.preview_id=None; self.override_text=''; self.controller.enter(state,time.monotonic(),'interaction',hard_limit=duration); self.tick()
 
     def preview(self,aid):
         self.override='pet'; self.preview_id=aid; self.override_text=ASSETS[aid]['name'].removesuffix('.gif')+' · 原始表情预览'
         self.controller.enter('pet',time.monotonic(),'preview',hard_limit=max(5,ASSETS[aid]['duration_ms']/1000+2)); self.tick()
         self.show()
+
+    def release_hover(self):
+        """The pointer left: a hover line still being said is finished first, with its expression."""
+        if self.voice.speaking(self.controller.serial): self.controller.finish_when_quiet(time.monotonic()); self.tick()
+        else: self.clear_override()
+
+    def accept_queued_line(self,request):
+        """A line that waited for the previous one is said only while its own moment is still on screen."""
+        if request.get('owner') is not None: return request['owner']==self.controller.serial and not self.notification
+        # The turn-start line has no expression of its own: it waits only while that turn is still running.
+        status=self.live_status
+        return bool(status.get('active')) and not status.get('stale') and task_key(status)==request.get('task')
 
     def clear_override(self):
         self.override=None; self.preview_id=None; self.override_text=''; self.controller.resume(time.monotonic()); self.tick()

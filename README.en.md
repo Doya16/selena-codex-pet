@@ -1,7 +1,7 @@
 <!-- README language switch -->
 [![中文](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-555555?style=for-the-badge)](README.md) [![English](https://img.shields.io/badge/English-1677ff?style=for-the-badge)](README.en.md)
 
-**v1.0.0**: First release of the Selena Codex desktop pet. Two skins (bridal / original) with 128 expressions, and 115 Selena voice lines set up for 16 interactions. The full package includes a one-click deploy script; later versions update from inside the pet.
+**v1.0.1**: Each expression now lasts until its voice line ends, with fixed rules for interacting while she speaks; the settings window shows every preview when it opens. Two skins (bridal / original) with 128 expressions, and 115 Selena voice lines set up for 16 interactions. The full package includes a one-click deploy script; later versions update from inside the pet.
 
 <!-- /README language switch -->
 
@@ -22,7 +22,7 @@ For **Windows 10/11 x64**. The full package includes two skins with 128 GIFs, 11
 ## Download and one-click deploy
 
 1. Install and sign in to **Codex** on Windows.
-2. Open [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest) and download **Selena-Codex-Windows-v1.0.0.zip**.
+2. Open [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest) and download **Selena-Codex-Windows-v1.0.1.zip**.
 3. **Extract the whole ZIP** into a writable folder, for example `D:\Selena`.
 4. Double-click **一键部署.cmd** (one-click deploy) in that folder. It:
    - checks that the package is complete and the folder is writable;
