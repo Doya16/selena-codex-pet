@@ -24,17 +24,32 @@ class VoiceChannelTests(unittest.TestCase):
             with patch.object(self.voice.player,'play'):self.voice._prepared(self.voice.generation,str(self.path),'')
         return ok
 
-    def test_a_reaction_cuts_a_reaction_line_and_takes_its_place(self):
-        self.assertTrue(self.say('pet',owner=1,barge=True))
-        self.assertTrue(self.say('feed',owner=2,barge=True))
-        self.assertEqual(self.voice.line_state(),'feed');self.assertTrue(self.voice.speaking(2));self.assertIsNone(self.voice.queued)
-
-    def test_a_task_line_is_never_cut_and_a_reaction_is_never_kept_for_later(self):
-        for task_line in ('done','error','paused','waiting'):
-            self.assertTrue(self.say(task_line,owner=1))
-            self.assertFalse(self.say('pet',owner=2,barge=True))
-            self.assertEqual(self.voice.line_state(),task_line);self.assertIsNone(self.voice.queued)
+    def test_no_reaction_cuts_a_line_and_none_is_kept_for_later(self):
+        for line in ('idle','pet','feed','doubleclick','drop','thinking','working','done','error','paused','waiting'):
+            self.assertTrue(self.say(line,owner=1))
+            for reaction in ('pet','feed','doubleclick','drag','drop','hover'):
+                self.assertFalse(self.say(reaction,owner=2,barge=True))
+            self.assertEqual(self.voice.line_state(),line);self.assertTrue(self.voice.speaking(1));self.assertIsNone(self.voice.queued)
             self.voice.stop()
+
+    def test_only_an_audition_replaces_the_line(self):
+        self.assertTrue(self.say('idle',owner=1))
+        with patch.object(self.voice.player,'fade_out') as fade:self.assertTrue(self.voice.trigger('pet',self.binding,self.options,preview=True))
+        fade.assert_called_once();self.assertEqual(self.voice.line_state(),'pet')
+
+    def test_the_log_records_how_each_line_ended(self):
+        self.voice.log_path=self.root/'voice-log.txt'
+        self.assertTrue(self.say('idle',owner=1));self.voice._finish()
+        self.assertTrue(self.say('pet',owner=2));self.voice.stop(reason='静音')
+        self.assertTrue(self.say('done',owner=3));self.voice._overdue()
+        rows=self.voice.log_path.read_text('utf8').splitlines()
+        self.assertEqual(len(rows),6);self.assertIn('idle  line  开始（2.0 秒）',rows[0]);self.assertIn('播完（',rows[1])
+        self.assertIn('pet  line  停止：静音',rows[3]);self.assertIn('done  line  超时跳过（',rows[5])
+
+    def test_the_log_stays_small(self):
+        self.voice.log_path=self.root/'voice-log.txt';self.voice.log_path.write_text('old line\n'*9000,'utf8')
+        self.assertTrue(self.say('idle',owner=1))
+        self.assertLess(self.voice.log_path.stat().st_size,50000);self.assertIn('开始',self.voice.log_path.read_text('utf8').splitlines()[-1])
 
     def test_idle_and_hover_never_interrupt(self):
         self.assertTrue(self.say('pet',owner=1,barge=True))
@@ -101,10 +116,36 @@ class ExpressionTimingTests(unittest.TestCase):
     def test_a_line_from_an_earlier_moment_does_not_hold_the_expression(self):
         p=self.pet;p.react('pet');self.speaking('thinking',owner=-5);self.long_ago();p.tick();self.assertEqual(p.state,'idle')
 
-    def test_clicks_wait_for_a_task_line_but_dragging_still_works(self):
-        p=self.pet;self.speaking('done',owner=-5);serial=p.controller.serial
-        p.react('pet');p.react('doubleclick');p.react('feed');p.react('hover');self.assertEqual(p.controller.serial,serial)
-        p.react('drag');self.assertEqual(p.state,'drag')
+    def test_after_a_reaction_the_unfinished_line_brings_its_face_back(self):
+        p=self.pet;p.react('pet');self.speaking('pet')
+        p.react('doubleclick');self.assertEqual(p.state,'doubleclick');self.assertEqual(p.voice.line_state(),'pet')
+        self.long_ago();p.tick();self.assertEqual(p.state,'pet');self.assertTrue(p.voice.speaking(p.controller.serial))
+        self.long_ago();p.tick();self.assertEqual(p.state,'pet')
+        self.quiet();p.tick();self.assertEqual(p.state,'idle')
+
+    def test_an_idle_line_goes_on_through_a_click(self):
+        p=self.pet;p.tick();self.speaking('idle')
+        p.react('pet');self.assertEqual(p.state,'pet');self.assertEqual(p.voice.line_state(),'idle')
+        self.long_ago();p.tick();self.assertEqual(p.state,'idle');self.assertTrue(p.voice.speaking(p.controller.serial))
+
+    def test_a_dropped_pet_does_not_go_back_to_being_held(self):
+        p=self.pet;p.react('drag');self.speaking('drag');p.react('drop')
+        self.long_ago();p.tick();self.assertEqual(p.state,'idle')
+
+    def test_the_line_face_does_not_cover_a_running_task(self):
+        p=self.pet;p.react('pet');self.speaking('pet');p.react('doubleclick')
+        p.on_status(dict(state='working',thread_id='t',turn_id='1',started=1,active=True,stale=False,title='T',events=[]))
+        self.long_ago();p.tick();self.assertEqual(p.state,'working');self.assertEqual(p.voice.line_state(),'pet')
+
+    def test_clicks_during_a_completion_line_show_and_the_completion_returns(self):
+        p=self.pet;p.set_binding('done',playback='once',hold_seconds=0)
+        status=dict(state='writing',thread_id='running',turn_id='live-turn',started=101,active=True,stale=False,title='Still working',
+                    events=[dict(state='done',thread_id='A',turn_id='turn-A',started=101,ended=103,title='A')])
+        p.on_status(status);self.assertEqual(p.state,'done');self.speaking('done')
+        for reaction in ('pet','doubleclick','feed'):
+            p.react(reaction);p.tick();self.assertEqual(p.state,reaction);self.assertEqual(p.voice.line_state(),'done')
+            self.long_ago();p.tick();self.assertEqual(p.state,'done')
+        self.quiet();p.notification_until=0;p.tick();self.assertEqual(p.state,'writing')
 
     def test_the_same_reaction_is_not_restarted_while_she_is_saying_it(self):
         p=self.pet;p.react('pet');self.speaking('pet');serial=p.controller.serial

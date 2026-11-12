@@ -49,7 +49,7 @@ class FullscreenGuard:
         covered=self.detect()
         mine=covered is not None and covered==self.locate(p)
         if mine and not self.hidden and p.isVisible():
-            self.hidden=True;p.voice.stop();p.cost_float.hide();p.hide()
+            self.hidden=True;p.voice.stop(reason='全屏隐藏');p.cost_float.hide();p.hide()
         elif not mine and self.hidden:self.restore()
 
     def restore(self):

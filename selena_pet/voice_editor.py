@@ -21,7 +21,7 @@ class VoicePoolEditor(QWidget):
         self.caption=QPlainTextEdit(); self.caption.setPlaceholderText('只配对当前选中的这一条语音，可与原台词不同。\n留空：此条语音不显示配对气泡。支持 {state}、{quota}、{task}、{progress}。'); self.caption.setFixedHeight(110); box.addWidget(self.caption)
         self.title.textEdited.connect(self.edit); self.path.textEdited.connect(self.edit); self.caption.textChanged.connect(self.edit)
         row=QHBoxLayout(); box.addLayout(row)
-        for label,fn in [('预览选中语音 + 气泡',self.preview_selected),('随机预览一对',self.preview_random),('停止声音',pet.voice.stop)]:
+        for label,fn in [('预览选中语音 + 气泡',self.preview_selected),('随机预览一对',self.preview_random),('停止声音',lambda:pet.voice.stop(reason='停止声音'))]:
             button=QPushButton(label); button.clicked.connect(fn); row.addWidget(button)
         self.pair_hint=QLabel(); self.pair_hint.setWordWrap(True); box.addWidget(self.pair_hint)
         box.addWidget(QLabel('选中语音的名称')); box.addWidget(self.title)

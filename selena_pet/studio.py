@@ -72,7 +72,7 @@ class BindingEditor(QDialog):
         voice.addRow('自动播报频率',self.combo('audio_policy',[('每次进入状态（遵守冷却时间）','entry'),('本次桌宠启动只播一次','session'),('偶尔播放','occasional'),('同一轮任务只播一次','turn')]))
         voice.addRow('偶尔播放 · 每次进入时的概率',self.number('audio_chance',0,100,5,' %'))
         voice.addRow('偶尔播放 · 最短间隔',self.number('audio_min_interval',0,3600,30,' 秒'))
-        notice=QLabel('表情会等这个动作的台词说完再切换。说话时再次互动会打断互动台词，换成新的回应；任务相关的台词（完成、出错、暂停、等你回应）总会说完。对应表情已经结束的台词不再补播；主动试听和“停止声音”仍可中断。思考每轮只播一次，试听不占用次数。'); notice.setWordWrap(True); voice.addRow(notice)
+        notice=QLabel('表情会等这个动作的台词说完再切换。台词一旦开始就会完整说完：说话时再次互动，动作照常但不出声，动作结束后这句台词的表情回来，直到说完。对应表情已经结束的台词不再补播；主动试听和“停止声音”仍可中断。思考每轮只播一次，试听不占用次数。'); notice.setWordWrap(True); voice.addRow(notice)
         enabled=QCheckBox('此状态允许播放音频（还需打开全局语音开关）'); self.controls['audio_enabled']=enabled; enabled.toggled.connect(lambda v:self.change('audio_enabled',v)); voice.addRow(enabled)
         for key,label in [('audio_avoid_repeat','有多条可用语音时，避免连续抽中同一条')]:
             control=QCheckBox(label); self.controls[key]=control; control.toggled.connect(lambda value,key=key:self.change(key,value)); voice.addRow(control)

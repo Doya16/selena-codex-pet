@@ -11,7 +11,7 @@ from .bindings import BindingMap,PlaybackController,MANUAL,playback_seconds
 from .studio import BindingEditor
 from .preferences import Preferences
 from .appearance import appearance,load_fonts,stylesheet,font
-from .audio_player import VoicePlayer,TASK_LINES
+from .audio_player import VoicePlayer
 from .config_io import save_atomic,migrate_settings
 from .renderer import PetRenderer,SpeechBubble
 from .binding_editor import TRIGGERS
@@ -126,6 +126,9 @@ class Pet(PetRenderer,QWidget):
         self.bubble_until=time.monotonic()+12
         self.live_status={'state':'idle','message':'','title':''}
         self.notifications=collections.deque(); self.notification=None; self.notification_until=0; self.notification_seen=set(); self.held_notification=None
+        # Who showed each recent expression (live, interaction, notification…), so a line outlasting its own
+        # expression can bring that expression back once a reaction is over.
+        self.entry_kinds={}
         self.quota_data={}; self.thread_list=[]; self.panel=None; self.binding_editor=None
         self.monitor=Monitor(self.options['codex_home'] or CODEX_HOME); self.monitor.selected=self.settings.get('thread','auto')
         self.rate_client=RateClient(self.options['codex_executable'],self.options['codex_home']); self.worker=BridgeWorker(); self.stop_event=threading.Event(); self.refresh_event=threading.Event()
@@ -138,6 +141,7 @@ class Pet(PetRenderer,QWidget):
         self.client_lifetime=ClientLifetime()
         self.worker.client_exited.connect(self.on_client_exit)
         self.voice=VoicePlayer(ROOT,self); self.preview_audio_clip=None; self.voice.accept=self.accept_queued_line
+        if not offline: self.voice.log_path=ROOT/'voice-log.txt'
         self.bubble_window=SpeechBubble(self); self.voice.changed.connect(self.on_voice_changed)
         from .cost_float import CostFloat
         self.cost_float=CostFloat(self)
@@ -372,6 +376,7 @@ class Pet(PetRenderer,QWidget):
             if self.voice.line_state()==held['state']:
                 self.notification=held; self.notification_until=now; self.bubble_until=now
                 self.controller.enter(held['state'],now,'notification')
+        if not self.notification and self.controller.owner=='live': self.return_to_line(now)
         self.present_turn_cost(now)
         placer=self.cost_float_placer
         if placer and placer.isVisible():
@@ -379,6 +384,8 @@ class Pet(PetRenderer,QWidget):
         entered=self.controller.serial!=self.last_serial
         if entered:
             self.last_serial=self.controller.serial; self.state=self.controller.state; self.anim_start=self.controller.started
+            self.entry_kinds[self.controller.serial]=self.controller.owner
+            for old in [k for k in self.entry_kinds if k<self.controller.serial-32]: del self.entry_kinds[old]
             if self.controller.owner=='live': self.override=None; self.preview_id=None; self.override_text=''
             else: self.override=self.state
         # A rest reminder keeps the cup of milk tea in hand; tucked against an edge, the resting pose is the
@@ -654,17 +661,24 @@ class Pet(PetRenderer,QWidget):
 
     def react(self,state,duration=None):
         if self.locked: return
-        line=self.voice.line_state()
-        # A line about the task is said in full; meanwhile only picking her up responds (silently).
-        if line in TASK_LINES and state not in ('drag','drop'): return
+        # Every reaction shows; while she is still talking it stays silent and the line goes on (see return_to_line).
         # Still saying this very reaction's line: let her finish it.
-        if line==state and state not in ('drag','drop') and self.voice.speaking(self.controller.serial): return
+        if self.voice.line_state()==state and state not in ('drag','drop') and self.voice.speaking(self.controller.serial): return
         self.preview_id=None; self.override_text=''; self.controller.enter(state,time.monotonic(),'interaction',hard_limit=duration); self.tick()
 
     def preview(self,aid):
         self.override='pet'; self.preview_id=aid; self.override_text=ASSETS[aid]['name'].removesuffix('.gif')+' · 原始表情预览'
         self.controller.enter('pet',time.monotonic(),'preview',hard_limit=max(5,ASSETS[aid]['duration_ms']/1000+2)); self.tick()
         self.show()
+
+    def return_to_line(self,now):
+        """A reaction is over while an earlier line is still being said: the line's own expression holds until it
+        ends. Task progress on screen (thinking, working…) is left as it is; the line simply goes on over it."""
+        v=self.voice; line=v.line_state(); owner=v.owner
+        if not line or owner is None or owner==self.controller.serial: return
+        if line==self.controller.state: v.owner=self.controller.serial; return
+        if line!='drag' and self.controller.state=='idle' and self.entry_kinds.get(owner) in ('interaction','chain'):
+            self.controller.enter(line,now,'interaction'); self.controller.quiet_exit=True; v.owner=self.controller.serial
 
     def release_hover(self):
         """The pointer left: a hover line still being said is finished first, with its expression."""
@@ -711,7 +725,7 @@ class Pet(PetRenderer,QWidget):
         self.options[key]=value; self.settings['appearance']=dict(self.options); self.options=appearance(self.settings)
         ok=self.save_settings(); self.apply_style(); self.update_layout(); self.update()
         if key=='tray_icon_style':self.apply_icon()
-        if (key=='audio_enabled' and not value) or (key=='audio_muted' and value): self.voice.stop()
+        if (key=='audio_enabled' and not value) or (key=='audio_muted' and value): self.voice.stop(reason='静音')
         if key=='interaction_locked' and value: self.cancel_pointer_interaction()
         if key=='edge_dock' and not value and self.edge_dock.docked:
             self.edge_dock.undock(); self.clamp_position(); self.settings['dock']=None; self.settings['position']=[self.x(),self.y()]; self.save_settings()
@@ -754,7 +768,7 @@ class Pet(PetRenderer,QWidget):
 
     def apply_settings(self,data):
         data=migrate_settings(data)
-        self.voice.stop()
+        self.voice.stop(reason='应用导入的配置')
         if not self.offline:
             from .startup import configure
             configure(appearance(data)['launch_with_codex'],ROOT)
@@ -829,7 +843,7 @@ class Pet(PetRenderer,QWidget):
     def shutdown(self):
         self.updates.close()
         self.stop_event.set(); self.refresh_event.set(); self.timer.stop(); self.tray.hide()
-        self.voice.stop(); self.save_settings()
+        self.voice.stop(reason='退出'); self.save_settings()
         self.rate_client.close(); QApplication.instance().exit(0)
 
     def closeEvent(self,event):

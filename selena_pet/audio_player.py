@@ -7,11 +7,11 @@ from PySide6.QtCore import QObject,QTimer,QUrl,Signal
 from PySide6.QtMultimedia import QMediaPlayer
 from .pcm_player import PcmPlayer
 AUDIO_EXTS={'.wav','.mp3','.ogg','.flac','.m4a','.aac'}
-# Lines about the task itself: never cut short by a click, and a click waits until they are said.
-TASK_LINES={'error','waiting','done','paused'}
 # Longest wait for a line to be decoded and start, and how long past its own length it may run, before
 # the channel is freed anyway (a stalled decoder or audio device must never hold expressions or queued lines).
 START_LIMIT,END_GRACE=20.0,2.5
+# voice-log.txt keeps roughly the last few hundred lines (start, end and anything that stopped a line early).
+LOG_LIMIT=64000
 def resolve_audio(value,directory,root):
     if not isinstance(value,str) or not value.strip(): return None
     path=pathlib.Path(value)
@@ -36,11 +36,27 @@ class VoicePlayer(QObject):
         # Decides whether a line that waited for the previous one still belongs on screen; set by the pet.
         self.accept=None
         self.watchdog=QTimer(self); self.watchdog.setSingleShot(True); self.watchdog.timeout.connect(self._overdue)
+        # Set by the pet: a short record of every line, so a line that ended early can be traced afterwards.
+        self.log_path=None; self.played_at=None
         self.prepared.connect(self._prepared)
         self.player.errorOccurred.connect(self._error)
         self.player.mediaStatusChanged.connect(self._media_status)
-    def stop(self,fade=False):
-        self.generation+=1; self.queued=None; self.busy=False; self.owner=None; self.pending.stop(); self.watchdog.stop()
+    def note(self,event):
+        if not self.log_path: return
+        clip=self.selected_clip or {}; name=pathlib.Path(str(clip.get('file',''))).stem or '-'
+        try:
+            path=pathlib.Path(self.log_path)
+            if path.exists() and path.stat().st_size>LOG_LIMIT:
+                text=path.read_text('utf8',errors='replace'); path.write_text(text[len(text)//2:].split('\n',1)[-1],'utf8')
+            with path.open('a',encoding='utf8') as f: f.write(f"{time.strftime('%m-%d %H:%M:%S')}  {self.selected_state or '-'}  {name}  {event}\n")
+        except OSError: pass
+    def stop(self,fade=False,reason=''):
+        if self.busy:
+            if not reason:
+                try: reason=sys._getframe(1).f_code.co_name
+                except ValueError: reason='?'
+            self.note('停止：'+reason)
+        self.generation+=1; self.queued=None; self.busy=False; self.owner=None; self.played_at=None; self.pending.stop(); self.watchdog.stop()
         if fade: self.player.fade_out()
         self.player.stop(); self.player.setSource(QUrl()); self.next_path=None; self.selected_clip=None; self.selected_state=None; self.selected_binding={}; self.changed.emit()
     def speaking(self,owner):
@@ -49,17 +65,20 @@ class VoicePlayer(QObject):
     def line_state(self):
         return self.selected_state if self.busy else None
     def _error(self,*_):
-        self.status.emit('音频暂时无法播放，桌宠继续运行。'); self._finish()
+        self.status.emit('音频暂时无法播放，桌宠继续运行。'); self._finish('出错')
     def _media_status(self,status):
         if status==QMediaPlayer.MediaStatus.EndOfMedia: self._finish()
     def _overdue(self):
         if not self.busy: return
         # A late decode result must not start this line after all.
         self.generation+=1; self.pending.stop(); self.player.stop()
-        self.status.emit('这句语音没有按时播完，已跳过。'); self._finish()
-    def _finish(self):
+        self.status.emit('这句语音没有按时播完，已跳过。'); self._finish('超时跳过')
+    def _finish(self,how='播完'):
         if not self.busy: return
-        self.busy=False; self.owner=None; self.next_path=None; self.watchdog.stop(); self.changed.emit()
+        length=self.player.duration()/1000
+        played='未开始' if self.played_at is None else f'{time.monotonic()-self.played_at:.1f}/{length:.1f} 秒'
+        self.note(f'{how}（{played}）')
+        self.busy=False; self.owner=None; self.played_at=None; self.next_path=None; self.watchdog.stop(); self.changed.emit()
         if self.queued:
             generation=self.generation
             QTimer.singleShot(0,lambda:self._drain(generation))
@@ -75,8 +94,8 @@ class VoicePlayer(QObject):
         return 1
     def trigger(self,state,binding,options,preview=False,now=None,task=None,notification=False,owner=None,barge=False):
         """Start a line, or keep it for later. owner: the on-screen moment it belongs to (that expression stays
-        until the line ends). barge: a mouse reaction; it may cut a line that is not about the task, and is
-        never kept for later, because said later it would no longer match the expression."""
+        until the line ends). barge: a mouse reaction. A line once started is always said in full; only an
+        audition from the settings replaces it."""
         if options.get('audio_muted'):
             if preview: self.status.emit('安静陪伴（静音）已开启，请先在设置或右键菜单取消静音。')
             return False
@@ -99,24 +118,20 @@ class VoicePlayer(QObject):
         now=time.monotonic() if now is None else now
         # A fresh task may notify immediately, even within the general cooldown.
         if not preview and not once and now-self.last_play.get(state,-1e12)<options.get('audio_cooldown',12): return False
-        # Protect a whole utterance, including its delay and decoder startup.
-        # Passive idle/hover must not cut in after a short GIF or mouse leave.
-        cut=False
+        # Protect a whole utterance, including its delay and decoder startup: nothing that happens on screen
+        # cuts it. Idle/hover lines and mouse reactions do not wait for it either (the reaction still shows,
+        # silently): said later they would no longer match the expression.
         if not preview and self.busy:
-            if state in ('idle','hover'): return False
-            if barge:
-                if self.selected_state in TASK_LINES: return False
-                cut=True
-            else:
-                request=dict(state=state,binding=copy.deepcopy(binding),options=dict(options),task=task,owner=owner)
-                if not self.queued or self.priority(state,binding)>=self.priority(self.queued['state'],self.queued['binding']): self.queued=request
-                return False
+            if state in ('idle','hover') or barge: return False
+            request=dict(state=state,binding=copy.deepcopy(binding),options=dict(options),task=task,owner=owner)
+            if not self.queued or self.priority(state,binding)>=self.priority(self.queued['state'],self.queued['binding']): self.queued=request
+            return False
         if not preview and policy=='occasional':
             if now-self.last_play.get(state,-1e12)<binding.get('audio_min_interval',300): return False
             if random.random()*100>=binding.get('audio_chance',20): return False
         selected=pick_clip(candidates,self.last_clip.get(state),binding.get('audio_avoid_repeat',True))
         deferred=self.queued if not preview else None
-        self.stop(fade=cut or (preview and self.busy))
+        self.stop(fade=preview and self.busy,reason='试听')
         self.queued=deferred
         if once: self.gate.mark(state,task)
         self.owner=owner; self.watchdog.start(round((START_LIMIT+(0 if preview else binding.get('audio_delay',0)))*1000))
@@ -138,11 +153,12 @@ class VoicePlayer(QObject):
         else: self._error()
     def _prepared(self,generation,path,error):
         if generation!=self.generation: return
-        if error: self.status.emit('音频无法解码：'+error); self._finish(); return
+        if error: self.status.emit('音频无法解码：'+error); self._finish('无法解码'); return
         self.player.setSource(QUrl.fromLocalFile(str(pathlib.Path(path).resolve())))
         if self.player.error()!=QMediaPlayer.Error.NoError: return
         self.player.play()
         if self.player.error()==QMediaPlayer.Error.NoError:
+            self.played_at=time.monotonic(); self.note(f'开始（{self.player.duration()/1000:.1f} 秒）')
             self.watchdog.start(round(self.player.duration()+END_GRACE*1000))
             if self.selected_automatic: self.session_played.add(self.selected_state)
             self.status.emit('正在播放：'+(self.selected_clip.get('title') or pathlib.Path(path).name))

@@ -85,8 +85,8 @@ class Preferences(QDialog):
         voice.addRow('音量',self.spin('volume',0,100,' %'))
         voice.addRow('同一状态最短播报间隔',self.spin('audio_cooldown',0,300,' 秒'))
         row,self.audio_dir=self.path_control('audio_directory','选择音频目录',directory=True); voice.addRow('音频目录',row)
-        stop=QPushButton('停止当前声音'); stop.clicked.connect(pet.voice.stop); voice.addRow(stop)
-        note=QLabel('表情会等台词说完再切换：单次播放的 GIF 停在最后一帧，循环的继续循环。说话时再点、双击或拖动她，会打断互动台词，换成新的回应；完成、出错、暂停和等你回应的台词总会说完，期间单击和双击先不响应，拖动照常跟手。任务进度变化时表情立即切换，正在说的台词继续说完。等候中的台词如果对应的表情已经结束，就不再补播。多会话完成提醒依次播放；思考默认每轮只播一次。主动试听或停止声音可以中断。'); note.setWordWrap(True); voice.addRow(note)
+        stop=QPushButton('停止当前声音'); stop.clicked.connect(lambda:pet.voice.stop(reason='停止当前声音')); voice.addRow(stop)
+        note=QLabel('表情会等台词说完再切换：单次播放的 GIF 停在最后一帧，循环的继续循环。台词一旦开始就会完整说完：说话时点她、双击、拖动或递奶茶，动作照常，只是这次不出声，原来的台词继续；动作结束后，这句台词的表情会回来，直到说完。任务进度变化时表情立即切换，正在说的台词继续说完。等候中的台词如果对应的表情已经结束，就不再补播。多会话完成提醒依次播放；思考默认每轮只播一次。只有主动试听、停止声音、静音和全屏隐藏会中断台词。'); note.setWordWrap(True); voice.addRow(note)
         transfer=self.tab('保存与迁移')
         transfer.section('保存')
         note=QLabel('修改会自动保存。你也可以立即保存快照，或把 GIF、字体、已绑定音频和配置一起打包。便携包还包含 Windows 运行程序。'); note.setWordWrap(True); transfer.addRow(note)
@@ -266,7 +266,7 @@ class Preferences(QDialog):
         path,_=QFileDialog.getOpenFileName(self,'导入配置',str(ROOT/'exports'),'赛琳娜配置 (*.zip *.json)')
         if not path: return
         try:
-            self.pet.voice.stop()
+            self.pet.voice.stop(reason='导入配置')
             stamp=datetime.datetime.now().strftime('%Y%m%d-%H%M%S'); save_atomic(ROOT/'backups'/('before-import-'+stamp+'.json'),self.pet.settings,backup=False)
             data=json.loads(pathlib.Path(path).read_text('utf8')) if path.lower().endswith('.json') else import_bundle(path,ROOT)
             if not isinstance(data,dict): raise ValueError('配置格式不正确')
