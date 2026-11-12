@@ -1,0 +1,34 @@
+Selena Codex companion - bundled components
+
+Python: Python Software Foundation License. https://www.python.org/
+PySide6 / Qt 6.11.2: LGPLv3 / GPLv3 / commercial licensing. https://www.qt.io/qt-for-python
+The distributed Qt libraries remain dynamically linked in _internal and can be replaced.
+Pillow: HPND license. https://python-pillow.org/
+SoundFile: BSD 3-Clause; libsndfile: LGPL-2.1-or-later. https://python-soundfile.readthedocs.io/
+CFFI: MIT license. https://cffi.readthedocs.io/
+NumPy: BSD 3-Clause, with bundled dependency notices in _internal/numpy. https://numpy.org/
+imageio-ffmpeg 0.6.0: BSD-2-Clause. https://github.com/imageio/imageio-ffmpeg
+Bundled FFmpeg 7.1 essentials build by Gyan: GPL-3.0-or-later, invoked as a separate local converter.
+License, build configuration and source locations are included in licenses/.
+PyInstaller: GPL with bootloader distribution exception. https://pyinstaller.org/
+
+LXGW WenKai: SIL Open Font License 1.1. See fonts/LXGWWenKai-OFL.txt
+Source: https://github.com/lxgw/LxgwWenKai
+ZCOOL KuaiLe: SIL Open Font License 1.1. See fonts/ZCOOLKuaiLe-OFL.txt
+Source: https://github.com/google/fonts/tree/main/ofl/zcoolkuaile
+Fonts are unmodified; source URLs and SHA-256 hashes are in fonts/sources.json.
+
+Character artwork and voice assets are not covered by the software or font licenses above. Rights remain with their respective rights holders.
+
+表情包素材来源与致谢
+
+表情包素材来源：赛琳娜厨子 QQ 群 978621218
+
+感谢赛琳娜厨子们制作并分享这些表情包（原皮、花嫁、DLC、社区包、圣诞与新年系列），让赛琳娜能以更多模样陪在桌面上。
+
+角色语音：《战双帕弥什》赛琳娜（岚音、幻奏、希声）的机体语音与活动剧情配音，由作者剪辑为默认语音。
+
+角色、表情包图片与原版语音的权利归各自权利人所有（《战双帕弥什》© 库洛游戏）。素材来源说明不改变原有使用条件；表情包仅供个人、非商业使用，请勿倒卖或用于付费分发。程序及字体的许可不适用于角色素材。
+
+Product marks
+- Codex product icon: OpenAI, from the Codex application UI. Product marks remain the property of their respective owners.

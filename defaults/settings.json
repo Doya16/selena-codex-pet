@@ -1,0 +1,861 @@
+{
+  "bindings": {
+    "thinking": {
+      "playback": "pingpong",
+      "bubble_text": "是研究的素材吗？",
+      "bubble_seconds": 5.0,
+      "bubble_mode": "audio",
+      "font_family": "ZCOOL KuaiLe",
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/075-整理1.ogg",
+          "subtitle": "是研究的素材吗？",
+          "title": "075-整理1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/076-整理2.ogg",
+          "subtitle": "艺术能凌驾于造化，造出无机质的生 命……只因被赋予了感情，造物竟能变得如此鲜活。感谢你，能将如此珍贵的生命赠与我。",
+          "title": "076-整理2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/077-整理3.ogg",
+          "subtitle": "请给我一点时间。",
+          "title": "077-整理3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/078-整理4.ogg",
+          "subtitle": "指挥，你想听见怎样的音符呢？",
+          "title": "078-整理4",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/079-整理5.ogg",
+          "subtitle": "由我指挥这场“歌剧”？明白了。",
+          "title": "079-整理5",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/080-整理6.ogg",
+          "subtitle": "是行进的旋律。",
+          "title": "080-整理6",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/081-整理7.ogg",
+          "subtitle": "随音符流淌向前。",
+          "title": "081-整理7",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/082-整理8.ogg",
+          "subtitle": "我好像听见了，更动人的曲调。",
+          "title": "082-整理8",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/083-整理9.ogg",
+          "subtitle": "它会演绎你我相伴的每一个朝夕。",
+          "title": "083-整理9",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/084-整理10.ogg",
+          "subtitle": "很荣幸能为各位协奏。",
+          "title": "084-整理10",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/085-整理11.ogg",
+          "subtitle": "能与各位一起进行这场演奏， 是我的荣幸。",
+          "title": "085-整理11",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/086-整理12.ogg",
+          "subtitle": "感谢您让我担任这场协奏曲的独奏。",
+          "title": "086-整理12",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/087-整理13.ogg",
+          "subtitle": "每日都不懈怠练习， 正式上场时发音才能流畅自如。",
+          "title": "087-整理13",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/088-整理14.ogg",
+          "subtitle": "序曲开始。",
+          "title": "088-整理14",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/089-整理15.ogg",
+          "subtitle": "慢板，行板，演奏开始。",
+          "title": "089-整理15",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/090-整理16.ogg",
+          "subtitle": "由我来添补些许花音",
+          "title": "090-整理16",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/091-整理17.ogg",
+          "subtitle": "很高兴能参演协奏。",
+          "title": "091-整理17",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/092-整理18.ogg",
+          "subtitle": "所有音符，都将交织成美好的乐谱。",
+          "title": "092-整理18",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/093-整理19.ogg",
+          "subtitle": "序曲已了，该进入正篇了。",
+          "title": "093-整理19",
+          "enabled": true
+        }
+      ],
+      "audio_delay": 0
+    },
+    "idle": {
+      "playback": "pingpong",
+      "speed": 0.75,
+      "bubble_mode": "audio",
+      "bubble_text": "爱无坦途，我已经准备好和你面临 接下来的所有暴风雨。",
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/050-待机陪伴1.ogg",
+          "subtitle": "爱无坦途，我已经准备好和你面临 接下来的所有暴风雨。",
+          "title": "050-待机陪伴1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/051-待机陪伴2.ogg",
+          "subtitle": "生活一切照旧，但与你有关的话题似乎已经成为了我的天然语言。",
+          "title": "051-待机陪伴2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/052-待机陪伴3.ogg",
+          "subtitle": "就像从前那样……感觉真好。",
+          "title": "052-待机陪伴3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/053-待机陪伴4.ogg",
+          "subtitle": "可以再注视我久一点吗？一触到你的目光，我便仿佛沐浴在那汪被神火烧沸的清泉中。",
+          "title": "053-待机陪伴4",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/054-待机陪伴5.ogg",
+          "subtitle": "我的名字是赛琳娜。",
+          "title": "054-待机陪伴5",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/055-待机陪伴6.ogg",
+          "subtitle": "无论我变成什么样，我依然是我…… 是赛琳娜。",
+          "title": "055-待机陪伴6",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/056-待机陪伴7.ogg",
+          "subtitle": "今天已经做得非常好了，可以惬意地 放松一下……一起跳支舞如何？",
+          "title": "056-待机陪伴7",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/057-待机陪伴8.ogg",
+          "subtitle": "途抵彼岸，衔风入幽，静候君归。",
+          "title": "057-待机陪伴8",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/058-待机陪伴9.ogg",
+          "subtitle": "或许是一种认知上的相似与灵魂上的共感，才让你觉得我们之间如此熟悉。",
+          "title": "058-待机陪伴9",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/059-待机陪伴10.ogg",
+          "subtitle": "历史的光影模糊了遥远的记忆，我就此失去了世界，它的狰狞刺痛了我，本以为需要一直忍耐。直到世界影绰地还予了一点温柔。风还是原来的风，你还是原来的你。",
+          "title": "059-待机陪伴10",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/060-待机陪伴11.ogg",
+          "subtitle": "我并不讨厌相顾无言的感觉，因为我想和你这样虚度时光，连着慵懒与恬静一同浪费在每一个傍晚或清晨。",
+          "title": "060-待机陪伴11",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/061-待机陪伴12.ogg",
+          "subtitle": "我可否将你比作一个夏日 ……没什么，只是一段诗歌而已。",
+          "title": "061-待机陪伴12",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/062-待机陪伴13.ogg",
+          "subtitle": "我们都是梦中的人物，我们的一生都在酣睡之中……我很担心，现在这样平静的时光也只是一场幻梦。如果这也只是一场梦的话，请让我酣睡得更久一点。",
+          "title": "062-待机陪伴13",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/063-待机陪伴14.ogg",
+          "subtitle": "如果那个时候，有你在身边的话， 我是不是就不用忍耐那么漫长苦难了？",
+          "title": "063-待机陪伴14",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/064-待机陪伴15.ogg",
+          "subtitle": "你也在发呆吗？",
+          "title": "064-待机陪伴15",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/065-待机陪伴16.ogg",
+          "subtitle": "今天的鸢尾花十分美丽， 请你一定要多看她一眼。",
+          "title": "065-待机陪伴16",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/066-待机陪伴17.ogg",
+          "subtitle": "哼~",
+          "title": "066-待机陪伴17",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/067-待机陪伴18.ogg",
+          "subtitle": "什么都不想做的话，要一起看点什么吗？",
+          "title": "067-待机陪伴18",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/068-待机陪伴19.ogg",
+          "subtitle": "空荡荡的间奏，让原本愉快的演出，也难熬了起来。",
+          "title": "068-待机陪伴19",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/069-待机陪伴20.ogg",
+          "subtitle": "我并不会因为冷落而不快，只是有点小小地紧张，让你出神的，是我吗？",
+          "title": "069-待机陪伴20",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/070-待机陪伴21.ogg",
+          "subtitle": "我喜欢与你相伴的感觉，每分每秒都不会觉得厌倦。",
+          "title": "070-待机陪伴21",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/071-待机陪伴22.ogg",
+          "subtitle": "我见过许多清晨的光景，但没有哪个比现在更让我期待一天将会如何度过。",
+          "title": "071-待机陪伴22",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/072-待机陪伴23.ogg",
+          "subtitle": "或许我们可以换一个招呼的方式，用舞步迎接今日的白昼。",
+          "title": "072-待机陪伴23",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/073-待机陪伴24.ogg",
+          "subtitle": "我喜欢这里，也愿意在此消磨时光……有你在的地方，就是我的亚登森林。",
+          "title": "073-待机陪伴24",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/074-待机陪伴25.ogg",
+          "subtitle": "我喜欢这里，也愿意在此消磨时光……有你在的地方，就是我的亚登森林。",
+          "title": "074-待机陪伴25",
+          "enabled": true
+        }
+      ],
+      "bubble_seconds": 3.0,
+      "audio_policy": "session",
+      "audio_chance": 20,
+      "audio_min_interval": 300
+    },
+    "doubleclick": {
+      "playback": "pingpong",
+      "loop_seconds": 1.5,
+      "bubble_mode": "audio",
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/016-双击角色1.ogg",
+          "subtitle": "这时候，我该……如何回应？",
+          "title": "016-双击角色1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/017-双击角色2.ogg",
+          "subtitle": "先前我准备了许多腹稿，但一相见，便觉得什么都多余了。",
+          "title": "017-双击角色2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/018-双击角色3.ogg",
+          "subtitle": "早安，指挥，你今天的心情是一首怎样的曲子？",
+          "title": "018-双击角色3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/019-双击角色4.ogg",
+          "subtitle": "每次相见，我心间奏响的曲调都不尽相同，但所有旋律的主题都是欢悦。",
+          "title": "019-双击角色4",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/020-双击角色5.ogg",
+          "subtitle": "生命中注定有无数缺陷， 我已不再为过去的惆怅而惆怅。",
+          "title": "020-双击角色5",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/021-双击角色6.ogg",
+          "subtitle": "要是这场战争终能迎来结束的那天，你会希望看到如何的景象？",
+          "title": "021-双击角色6",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/022-双击角色7.ogg",
+          "subtitle": "请注意礼仪。",
+          "title": "022-双击角色7",
+          "enabled": true
+        }
+      ],
+      "bubble_text": "这时候，我该……如何回应？"
+    },
+    "drag": {
+      "bubble_text": "嗯？",
+      "bubble_seconds": 4.0,
+      "bubble_mode": "audio",
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/026-拖动中1.ogg",
+          "subtitle": "嗯？",
+          "title": "026-拖动中1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/027-拖动中2.ogg",
+          "subtitle": "真少见，你不太正经的样子。",
+          "title": "027-拖动中2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/028-拖动中3.ogg",
+          "subtitle": "呀……",
+          "title": "028-拖动中3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/029-拖动中4.ogg",
+          "subtitle": "唔……我也可以这样碰你吗？嘻……",
+          "title": "029-拖动中4",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/030-拖动中5.ogg",
+          "subtitle": "嗯？！",
+          "title": "030-拖动中5",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/031-拖动中6.ogg",
+          "subtitle": "嗯……",
+          "title": "031-拖动中6",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/032-拖动中7.ogg",
+          "subtitle": "指挥。",
+          "title": "032-拖动中7",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/033-拖动中8.ogg",
+          "subtitle": "哼嗯……啊，指挥，抱歉，我在思考新的曲段……是的，是想之后……给你听的。",
+          "title": "033-拖动中8",
+          "enabled": true
+        }
+      ]
+    },
+    "drop": {
+      "hold_seconds": 0.5,
+      "bubble_text": "嗯？",
+      "bubble_mode": "audio",
+      "bubble_seconds": 3.0,
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/034-松开1.ogg",
+          "subtitle": "嗯？",
+          "title": "034-松开1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/035-松开2.ogg",
+          "subtitle": "啊——，可以握住我的手么？",
+          "title": "035-松开2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/036-松开3.ogg",
+          "subtitle": "头发乱了。",
+          "title": "036-松开3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/037-松开4.ogg",
+          "subtitle": "真少见，你不太正经的样子。",
+          "title": "037-松开4",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/038-松开5.ogg",
+          "subtitle": "真少见，你不太正经的样子。",
+          "title": "038-松开5",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/039-松开6.ogg",
+          "subtitle": "啊……",
+          "title": "039-松开6",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/040-松开7.ogg",
+          "subtitle": "呀……",
+          "title": "040-松开7",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/041-松开8.ogg",
+          "subtitle": "从容或许源自悸动已久后的习惯。",
+          "title": "041-松开8",
+          "enabled": true
+        }
+      ]
+    },
+    "hover": {
+      "bubble_text": "可以靠近一点，只是近一点点， 应该不会有什么问题。",
+      "bubble_seconds": 4.0,
+      "font_family": "ZCOOL KuaiLe",
+      "bubble_mode": "audio",
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/023-鼠标停留1.ogg",
+          "subtitle": "可以靠近一点，只是近一点点， 应该不会有什么问题。",
+          "title": "023-鼠标停留1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/024-鼠标停留2.ogg",
+          "subtitle": "如此接近你，我反而感到有些不安……",
+          "title": "024-鼠标停留2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/025-鼠标停留3.ogg",
+          "subtitle": "你能听见吗？在意识海深处回响的浪潮声……越是触碰你，那声音便越是响 亮……越是动听。",
+          "title": "025-鼠标停留3",
+          "enabled": true
+        }
+      ],
+      "audio_avoid_repeat": true
+    },
+    "feed": {
+      "bubble_text": "今天已经足够活跃了， 现在来休息一下吧。给，这是润喉糖， 虽然我已经不再需要它了。",
+      "bubble_seconds": 5.0,
+      "bubble_mode": "audio",
+      "playback": "loop",
+      "loop_seconds": 5.0,
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/042-递奶茶1.ogg",
+          "subtitle": "今天已经足够活跃了， 现在来休息一下吧。给，这是润喉糖， 虽然我已经不再需要它了。",
+          "title": "042-递奶茶1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/043-递奶茶2.ogg",
+          "subtitle": "要站起来活动一下吗？我们一起四处走走吧。",
+          "title": "043-递奶茶2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/044-递奶茶3.ogg",
+          "subtitle": "即使再悦耳的旋律，循环久了也会让人疲惫，你该休息了。",
+          "title": "044-递奶茶3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/045-递奶茶4.ogg",
+          "subtitle": "工作是做不完的，让我们离开现实，小憩一下，聊聊其他有趣的话题吧……",
+          "title": "045-递奶茶4",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/046-递奶茶5.ogg",
+          "subtitle": "指挥，去休息吧，我不会走的，我就在这里，一直等你。",
+          "title": "046-递奶茶5",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/047-递奶茶6.ogg",
+          "subtitle": "太长时间的练习会伤害身体， 该休息了。",
+          "title": "047-递奶茶6",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/048-递奶茶7.ogg",
+          "subtitle": "你看起来已经疲惫不堪了， 我可否，邀你一同进入梦乡？",
+          "title": "048-递奶茶7",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/049-递奶茶8.ogg",
+          "subtitle": "让我为你道声晚安吧。 晚安，晚安，愿恬静的安息， 能降临到你我两人的心头。",
+          "title": "049-递奶茶8",
+          "enabled": true
+        }
+      ]
+    },
+    "pet": {
+      "playback": "pingpong",
+      "loop_seconds": 3.0,
+      "next_state": "auto",
+      "hold_seconds": 0.5,
+      "bubble_text": "可以将手，一直贴在我的脸颊上么？",
+      "bubble_seconds": 3.0,
+      "font_family": "",
+      "bubble_mode": "audio",
+      "font_size": 0,
+      "audio_policy": "entry",
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/001-单击1.ogg",
+          "subtitle": "可以将手，一直贴在我的脸颊上么？",
+          "title": "001-单击1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/002-单击2.ogg",
+          "subtitle": "唔……我也可以这样碰你吗？嘻……",
+          "title": "002-单击2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/003-单击3.ogg",
+          "subtitle": "指挥，你想听见怎样的音符呢？",
+          "title": "003-单击3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/004-单击4.ogg",
+          "subtitle": "可以，再多这样一会吗……？",
+          "title": "004-单击4",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/005-单击5.ogg",
+          "subtitle": "你触碰我的每个地方， 仿佛都要开出花朵来……",
+          "title": "005-单击5",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/006-单击6.ogg",
+          "subtitle": "可以将手收回得慢一点么？",
+          "title": "006-单击6",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/007-单击7.ogg",
+          "subtitle": "是的， 我想要和你指尖交汇得更久一些。",
+          "title": "007-单击7",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/008-单击8.ogg",
+          "subtitle": "慢一点也可以，请更多考虑自己。",
+          "title": "008-单击8",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/009-单击9.ogg",
+          "subtitle": "略感疲惫的话，就休憩片刻吧， 我来给你唱一首安眠曲如何？",
+          "title": "009-单击9",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/010-单击10.ogg",
+          "subtitle": "过来，枕在我的腿上， 嗯，就这样静静地……",
+          "title": "010-单击10",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/011-单击11.ogg",
+          "subtitle": "睡吧，在我身边。愿酣睡安抚你眼， 愿平静安息你心……",
+          "title": "011-单击11",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/012-单击12.ogg",
+          "subtitle": "你的体温，原来是如此温暖吗……",
+          "title": "012-单击12",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/013-单击13.ogg",
+          "subtitle": "……啊，早上好。",
+          "title": "013-单击13",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/014-单击14.ogg",
+          "subtitle": "指挥，你来了。",
+          "title": "014-单击14",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/015-单击15.ogg",
+          "subtitle": "每次相见，我心间奏响的曲调都不尽相同，但所有旋律的主题都是欢悦。",
+          "title": "015-单击15",
+          "enabled": true
+        }
+      ]
+    },
+    "reading": {
+      "bubble_text": "",
+      "bubble_mode": "off",
+      "font_family": "",
+      "audio_clips": []
+    },
+    "writing": {
+      "bubble_mode": "off",
+      "audio_clips": []
+    },
+    "working": {
+      "bubble_mode": "off",
+      "audio_clips": []
+    },
+    "waiting": {
+      "playback": "loop",
+      "speed": 0.5,
+      "bubble_mode": "audio",
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/094-等待你回应1.ogg",
+          "subtitle": "我可以再提一个要求么？",
+          "title": "094-等待你回应1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/095-等待你回应2.ogg",
+          "subtitle": "我在想，总是馈赠他人的你，自己需要的，是什么呢？",
+          "title": "095-等待你回应2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/096-等待你回应3.ogg",
+          "subtitle": "指挥，你在哪…… 我听不见，你的声音……",
+          "title": "096-等待你回应3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/097-等待你回应4.ogg",
+          "subtitle": "您喜欢怎样的和声呢？",
+          "title": "097-等待你回应4",
+          "enabled": true
+        }
+      ],
+      "bubble_text": "我可以再提一个要求么？",
+      "bubble_seconds": 5.0
+    },
+    "done": {
+      "hold_seconds": 0.5,
+      "bubble_text": "啊……你听见了吗？花和风的声音。",
+      "bubble_mode": "audio",
+      "bubble_seconds": 5.0,
+      "playback": "pingpong",
+      "loop_seconds": 5.0,
+      "font_family": "",
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/098-任务完成1.ogg",
+          "subtitle": "啊……你听见了吗？花和风的声音。",
+          "title": "098-任务完成1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/099-任务完成2.ogg",
+          "subtitle": "也请给我一点回礼的空间，希望这首曲子不会让你讨厌。",
+          "title": "099-任务完成2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/100-任务完成3.ogg",
+          "subtitle": "也请给我一点回礼的空间，希望这首曲子不会让你讨厌。",
+          "title": "100-任务完成3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/101-任务完成4.ogg",
+          "subtitle": "比起它本身，你准备付出的心意，更让我开心。",
+          "title": "101-任务完成4",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/102-任务完成5.ogg",
+          "subtitle": "任务就跟声乐辅导一样重要， 不好好完成可不行。",
+          "title": "102-任务完成5",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/103-任务完成6.ogg",
+          "subtitle": "希望你们能喜欢我领奏的节拍。",
+          "title": "103-任务完成6",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/104-任务完成7.ogg",
+          "subtitle": "感谢各位的莅临，本次演出完满结束，期待再会。",
+          "title": "104-任务完成7",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/105-任务完成8.ogg",
+          "subtitle": "已经没有待奏的曲目了，要一起做点别的事情吗？",
+          "title": "105-任务完成8",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/106-任务完成9.ogg",
+          "subtitle": "距理想中的彩虹又近了一步。",
+          "title": "106-任务完成9",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/107-任务完成10.ogg",
+          "subtitle": "它将成为我们共面风雨的纽带。",
+          "title": "107-任务完成10",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/108-任务完成11.ogg",
+          "subtitle": "即兴的余音。",
+          "title": "108-任务完成11",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/109-任务完成12.ogg",
+          "subtitle": "它们是我藏在话里的话，诗里的诗。",
+          "title": "109-任务完成12",
+          "enabled": true
+        }
+      ]
+    },
+    "error": {
+      "hold_seconds": 0.5,
+      "bubble_text": "凋零了也没有关系，一朵花没落不了整个春天。",
+      "bubble_mode": "audio",
+      "bubble_seconds": 3.0,
+      "playback": "pingpong",
+      "next_state": "hold",
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/110-任务出错1.ogg",
+          "subtitle": "凋零了也没有关系，一朵花没落不了整个春天。",
+          "title": "110-任务出错1",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/111-任务出错2.ogg",
+          "subtitle": "走音了，看来还不熟练……",
+          "title": "111-任务出错2",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/112-任务出错3.ogg",
+          "subtitle": "至少得完成……自己的部分……",
+          "title": "112-任务出错3",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/113-任务出错4.ogg",
+          "subtitle": "就算错音，也必须完成演奏……",
+          "title": "113-任务出错4",
+          "enabled": true
+        },
+        {
+          "file": "赛琳娜语音/114-任务出错5.ogg",
+          "subtitle": "命运从未有过怜悯，奔向理想的长夜没有尽期。",
+          "title": "114-任务出错5",
+          "enabled": true
+        }
+      ]
+    },
+    "paused": {
+      "bubble_text": "不，失礼了。我还没做好准备， 让人听见未经打磨的笛声。",
+      "bubble_mode": "audio",
+      "bubble_seconds": 5.0,
+      "audio_clips": [
+        {
+          "file": "赛琳娜语音/115-任务暂停1.ogg",
+          "subtitle": "不，失礼了。我还没做好准备， 让人听见未经打磨的笛声。",
+          "title": "115-任务暂停1",
+          "enabled": true
+        }
+      ]
+    },
+    "unknown": {
+      "bubble_text": "",
+      "bubble_mode": "auto",
+      "audio_clips": []
+    }
+  },
+  "schema_version": 7,
+  "appearance": {
+    "font_family": "ZCOOL KuaiLe",
+    "bubble_font_family": "ZCOOL KuaiLe",
+    "bubble_font_size": 25,
+    "quota_font_size": 20,
+    "ui_font_size": 17,
+    "bubble_width": 389,
+    "bubble_width_ratio": 1.7891,
+    "quota_scale": 1.4642,
+    "pet_size": 230,
+    "volume": 10,
+    "audio_enabled": true,
+    "audio_cooldown": 8,
+    "audio_directory": "defaults/audio",
+    "codex_home": "",
+    "codex_executable": "",
+    "launch_with_codex": false,
+    "audio_muted": false,
+    "interaction_locked": false,
+    "lock_button_transparency": 35,
+    "lock_button_size": 100,
+    "locked_hover_transparency": 70,
+    "tray_icon_style": "badged",
+    "exit_with_codex": true,
+    "update_source": "auto",
+    "show_quota": true,
+    "check_updates_periodic": true,
+    "update_interval_hours": 6,
+    "update_snoozed_date": ""
+  },
+  "pack": "花嫁",
+  "thread": "auto",
+  "scale": 0.75
+}

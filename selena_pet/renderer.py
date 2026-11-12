@@ -1,0 +1,147 @@
+import math,time
+from PySide6.QtCore import Qt,QRectF
+from PySide6.QtGui import QPainter,QPainterPath,QPen,QColor,QFontMetrics,QFont
+from .appearance import font
+from .bindings import MANUAL
+from .voice_pool import clip_bubble_text
+from .bubble_window import SpeechBubble
+from PySide6.QtWidgets import QApplication
+from .sizing import fitted_scale
+from .presentation_size import paint_grips
+from .quota import quota_view
+
+def wrap_text(text,metrics,width):
+    lines=[]; line=''
+    for char in text:
+        if char=='\n' or (line and metrics.horizontalAdvance(line+char)>width):
+            lines.append(line); line='' if char=='\n' else char
+        else: line+=char
+    lines.append(line)
+    return lines
+
+class PetRenderer:
+    def image_rect(self,image):
+        r=self.pet_rect; ratio=min(r.width()/image.width(),r.height()/image.height())
+        width=image.width()*ratio; height=image.height()*ratio
+        return QRectF(r.center().x()-width/2,r.center().y()-height/2,width,height)
+    def update_layout(self):
+        area=self.screen_area(); self.layout_area=area
+        anchor=None
+        if getattr(self,'position_ready',False): anchor=(self.x()+self.pet_rect.center().x()*self.scale_factor,self.y()+self.pet_rect.bottom()*self.scale_factor)
+        b=self.bubble_binding(); opts=self.options
+        self.bubble_font=font(b['font_family'] or opts['bubble_font_family'],b['font_size'] or opts['bubble_font_size'])
+        self.quota_font=font(opts['font_family'],opts['quota_font_size'])
+        size=opts['pet_size']
+        self.quota_pet_factor=size/230
+        metrics=QFontMetrics(self.quota_font)
+        has_progress=quota_view(self.quota_data).remaining is not None
+        bar_height=(max(31,metrics.height()+10)+(8 if has_progress else 0))*self.quota_pet_factor
+        bar_width=min(230,max(146,metrics.horizontalAdvance(self.quota_label(compact=True))+28))*self.quota_pet_factor
+        fit_height=size+bar_height+14 if opts['show_quota'] else size+8
+        self.scale_factor=fitted_scale(self.requested_scale,size+8,fit_height,area.width(),area.height())
+        self.quota_base_width=bar_width; self.quota_base_height=bar_height
+        self.quota_display_scale=min(opts['quota_scale'],(area.width()/self.scale_factor-8)/bar_width,(area.height()/self.scale_factor-size-14)/bar_height)
+        self.quota_display_scale=max(.1,self.quota_display_scale)
+        bar_width*=self.quota_display_scale; bar_height*=self.quota_display_scale
+        width=max(size,bar_width if opts['show_quota'] else 0)+8; self.scene_width=width
+        self.pet_rect=QRectF((width-size)/2,4,size,size)
+        self.quota_rect=QRectF((width-bar_width)/2,size+8,bar_width,bar_height) if opts['show_quota'] else QRectF()
+        height=self.quota_rect.bottom()+6 if opts['show_quota'] else self.pet_rect.bottom()+4
+        self.scene_height=height
+        target_width=min(size*opts['bubble_width_ratio']*self.scale_factor,area.width())
+        center=self.pet_rect.center().x()*self.scale_factor
+        self.bubble_left=math.ceil(center-target_width/2)
+        bubble_pixels=max(1,math.floor(center+target_width/2)-self.bubble_left)
+        self.bubble_scale=self.scale_factor
+        self.bubble_width=bubble_pixels/self.bubble_scale
+        self.bubble_title_font=font(opts['font_family'],max(15,opts['ui_font_size']-1),True)
+        title_metrics=QFontMetrics(self.bubble_title_font)
+        title='赛琳娜 · 尺寸预览' if self.presentation_previews else '赛琳娜 · 本轮花费' if self.cost_text else '赛琳娜 · '+self.state_title(self.bubble_state())
+        self.bubble_title_lines=wrap_text(title,title_metrics,self.bubble_width-68)
+        self.bubble_title_height=title_metrics.height()+2
+        self.bubble_body_top=22+self.bubble_title_height*len(self.bubble_title_lines)+9
+        self.bubble_lines=wrap_text(self.bubble_text(),QFontMetrics(self.bubble_font),self.bubble_width-52)
+        self.bubble_line_height=QFontMetrics(self.bubble_font).height()+3
+        self.bubble_footer_font=font(opts['font_family'],max(13,opts['ui_font_size']-3))
+        footer_metrics=QFontMetrics(self.bubble_footer_font)
+        self.bubble_footer_lines=wrap_text('双击互动 · 右键自定义',footer_metrics,self.bubble_width-52)
+        self.bubble_footer_height=footer_metrics.height()+2
+        self.bubble_divider_y=self.bubble_body_top+self.bubble_line_height*len(self.bubble_lines)+7
+        bubble_height=self.bubble_divider_y+8+self.bubble_footer_height*len(self.bubble_footer_lines)
+        self.bubble_rect=QRectF(10,12,self.bubble_width-20,bubble_height)
+        # Dialogue grows vertically without truncating or shrinking the font.
+        self.bubble_window.resize(bubble_pixels,math.ceil((bubble_height+38)*self.bubble_scale))
+        neww,newh=round(width*self.scale_factor),round(height*self.scale_factor)
+        if self.width()!=neww or self.height()!=newh:
+            self.resize(neww,newh)
+            if anchor:
+                self.move(round(anchor[0]-self.pet_rect.center().x()*self.scale_factor),round(anchor[1]-self.pet_rect.bottom()*self.scale_factor)); self.clamp_position()
+        self.lock_button.position_on_pet()
+        self.pointer_mode.refresh()
+        self.setToolTip(self.quota_details()); self.update_bubble(); self.size_changed.emit()
+
+    def update_bubble(self):
+        if not hasattr(self,'bubble_rect'): return
+        bubble=self.bubble_window
+        updates=getattr(self,'updates',None)
+        if updates and updates.notice.refresh(): bubble.hide(); return
+        if not self.isVisible() or not self.bubble_visible(): bubble.hide(); return
+        center=self.mapToGlobal((self.pet_rect.center()*self.scale_factor).toPoint())
+        area=self.screen_area()
+        x=max(area.left(),min(self.x()+self.bubble_left,area.right()-bubble.width()+1))
+        y=self.y()-bubble.height()-4; above=y>=area.top()
+        if not above: y=min(area.bottom()-bubble.height()+1,self.y()+self.height()+4)
+        y=max(area.top(),y)
+        bubble.above=above; bubble.arrow_x=(center.x()-x)/self.bubble_scale
+        bubble.move(x,y); bubble.show(); bubble.update()
+
+    def bubble_visible(self):
+        if self.presentation_previews or self.bubble_window.edge_resize.active or self.cost_text: return True
+        b=self.bubble_binding(); elapsed=time.monotonic()-self.controller.started
+        if b['bubble_mode']=='off': return False
+        if self.voice_bubble(): return True
+        if b['bubble_mode']=='audio': return False
+        if b['bubble_seconds'] and elapsed>=b['bubble_seconds']: return False
+        return True
+
+    def paintEvent(self,event):
+        p=QPainter(self); p.setRenderHint(QPainter.RenderHint.Antialiasing); p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform); p.scale(self.scale_factor,self.scale_factor)
+        opts=self.options; width=self.scene_width; b=self.binding(self.state)
+        elapsed=(time.monotonic()-self.controller.started)*1000
+        frame=self.animation.frame(elapsed*b['speed'],playback='once' if self.preview_id else b['playback'])
+        if getattr(self,'mirror_art',False):
+            # One flipped copy per frame, kept while the same frame is on screen.
+            cached=self.mirror_cache
+            if cached is None or cached[0] is not frame: cached=self.mirror_cache=(frame,frame.flipped(Qt.Orientation.Horizontal))
+            frame=cached[1]
+        opacity=self.pointer_mode.avatar_opacity
+        p.setOpacity(opacity)
+        fraction=(time.monotonic()-self.transition_start)/.20
+        if self.transition_old is not None and fraction<1:
+            p.setOpacity(opacity*(1-fraction*2 if fraction<.5 else (fraction-.5)*2)); shown=self.transition_old if fraction<.5 else frame; p.drawImage(self.image_rect(shown),shown)
+        else: self.transition_old=None; p.drawImage(self.image_rect(frame),frame)
+        # Reset the animation crossfade, retaining locked-hover opacity for the balance.
+        p.setOpacity(opacity); self.last_image=frame
+        if not opts['show_quota']:
+            p.end(); return
+        p.save(); p.translate(self.quota_rect.topLeft()); quota_scale=self.quota_display_scale*self.quota_pet_factor; p.scale(quota_scale,quota_scale)
+        bar=QRectF(0,0,self.quota_base_width/self.quota_pet_factor,self.quota_base_height/self.quota_pet_factor)
+        view=quota_view(self.quota_data); remaining=view.remaining
+        low=view.mode in ('depleted','blocked') or (remaining is not None and remaining<20)
+        credit_mode=view.mode=='credits'
+        border='#7a5aac' if credit_mode else '#a67125' if low else '#6788b4'; fill='#d99032' if low else '#6e9fd0'
+        p.setPen(Qt.PenStyle.NoPen); p.setBrush(QColor(20,43,77,50)); p.drawRoundedRect(bar.translated(0,2),11,11)
+        p.setPen(QPen(QColor(border),1.6)); p.setBrush(QColor('#f4eeff' if credit_mode else '#fff4de' if low else '#e1f3ff')); p.drawRoundedRect(bar,11,11)
+        track=QRectF(bar.left()+11,bar.bottom()-9,bar.width()-22,4)
+        p.setPen(Qt.PenStyle.NoPen)
+        if remaining is not None:
+            p.setBrush(QColor('#b6d3ed')); p.drawRoundedRect(track,2,2)
+            p.setBrush(QColor(fill)); p.drawRoundedRect(QRectF(track.left(),track.top(),track.width()*max(0,min(100,remaining))/100,track.height()),2,2)
+        label=self.quota_display_label(); label_font=QFont(self.quota_font)
+        available=bar.width()-18; measured=QFontMetrics(label_font).horizontalAdvance(label)
+        if measured>available: label_font.setPixelSize(max(7,int(label_font.pixelSize()*available/measured)))
+        p.setFont(label_font); p.setPen(QColor('#65478e' if credit_mode else '#744d13' if low else '#4f72a2'))
+        # A balance has no progress track: use symmetric vertical padding.
+        text_rect=bar.adjusted(9,3,-9,-11 if remaining is not None else -3)
+        p.drawText(text_rect,Qt.AlignmentFlag.AlignCenter,label)
+        paint_grips(p,bar,self.scale_factor*quota_scale); p.restore(); p.end()
