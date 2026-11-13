@@ -1,7 +1,7 @@
 <!-- README language switch -->
 [![中文](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-1677ff?style=for-the-badge)](README.md) [![English](https://img.shields.io/badge/English-555555?style=for-the-badge)](README.en.md)
 
-**v1.0.3**：补全了 33 条在素材导出时被截短的语音，已安装的桌宠更新后会自动换上完整版本，每句台词的结尾也不再被吞掉一小段。台词一旦开始就会完整说完，说话时点她、拖动她只换动作、不再打断；设置窗口打开即可看到全部预览。两套皮肤（花嫁 / 原皮）共 128 个表情，115 条赛琳娜语音按 16 种交互配好；完整包附带「一键部署」，之后在桌宠内一键更新。
+**v1.0.4**：休息提醒的“稍后再提醒”可以自己填等多久（1～240 分钟，默认 30），提醒卡片上的按钮按你填的分钟数显示。v1.0.3 补全了 33 条在素材导出时被截短的语音，已安装的桌宠更新后会自动换上完整版本，每句台词的结尾也不再被吞掉一小段。台词一旦开始就会完整说完，说话时点她、拖动她只换动作、不再打断；设置窗口打开即可看到全部预览。两套皮肤（花嫁 / 原皮）共 128 个表情，115 条赛琳娜语音按 16 种交互配好；完整包附带「一键部署」，之后在桌宠内一键更新。
 
 <!-- /README language switch -->
 
@@ -22,7 +22,7 @@
 ## 下载与一键部署
 
 1. 在 Windows 上安装并登录 **Codex**。
-2. 打开 [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest)，下载 **Selena-Codex-Windows-v1.0.3.zip**。
+2. 打开 [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest)，下载 **Selena-Codex-Windows-v1.0.4.zip**。
 3. 把整个 ZIP **完整解压**到一个可写的文件夹，例如 `D:\赛琳娜Codex桌宠`。
 4. 双击文件夹里的 **一键部署.cmd**。它会：
    - 检查文件是否解压完整、文件夹能否写入；
