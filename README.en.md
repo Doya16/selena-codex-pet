@@ -17,7 +17,7 @@
 
 </div>
 
-For **Windows 10/11 x64**. The full package includes two skins with 128 GIFs, 115 Selena voice lines with subtitles, and fonts. Expressions, playback timing, bubbles, voices and appearance are preset. Extract the package, double-click the one-click deploy script and you are done; no Python installation is required.
+For **Windows 10/11 x64**. The full package includes the bridal expression set and a library of 128 GIFs, 115 Selena voice lines with subtitles, and fonts. Expressions, playback timing, bubbles, voices and appearance are preset. Extract the package, double-click the one-click deploy script and you are done; no Python installation is required.
 
 ## Installation
 
@@ -45,16 +45,11 @@ When a new version is out, the pet tells you; click **更新并重启赛琳娜**
 
 Sound is on by default at 10% volume. Change it in Settings → Desktop & Sound.
 
-## Two skins
+## Expressions
 
-Switch in **Settings → Desktop & Sound → Default expression style**; it applies immediately:
+Selena uses the **bridal** sticker set by default; every one of the 16 interactions has its own bridal expression.
 
-- **Bridal** (default): every one of the 16 interactions has its own bridal expression.
-- **Original**: the original-outfit sticker set. Interactions without a same-named sticker use the closest one.
-
-![The 16 interactions in the original skin](docs/images/events-original.jpg)
-
-Each interaction can also use any of the 128 GIFs from both skins.
+The library also holds the original-outfit, community, Christmas and New Year stickers, 128 in all. In **Settings → Interaction Studio** you can give any interaction any of them, or import your own images.
 
 ## One-click updates
 

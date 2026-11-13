@@ -62,7 +62,6 @@ class Preferences(QDialog):
         voice.section('桌面',self.preview('desk'))
         icon_style=QComboBox();icon_style.addItem('APP 小标','badged');icon_style.addItem('纯净图标','clean')
         icon_style.currentIndexChanged.connect(lambda:self.change('tray_icon_style',icon_style.currentData()));self.controls['tray_icon_style']=icon_style;voice.addRow('底部栏与托盘图标',icon_style)
-        self.pack=QComboBox(); self.pack.addItem('花嫁 · 希声时装','花嫁'); self.pack.addItem('原皮 · 原版','原皮'); self.pack.currentIndexChanged.connect(lambda:pet.set_pack(self.pack.currentData()) if not self.loading else None); voice.addRow('默认表情风格',self.pack)
         self.top=QCheckBox('保持置顶'); self.top.toggled.connect(lambda value:pet.set_top(value) if not self.loading else None); voice.addRow(self.top)
         for key,label in (('edge_dock','拖到屏幕边缘时贴边藏起'),('daily_recap','每天显示一次小结'),('fullscreen_hide','全屏程序运行时隐藏')):
             box=QCheckBox(label); box.toggled.connect(lambda value,key=key:self.change(key,value)); self.controls[key]=box; voice.addRow(box)
@@ -209,7 +208,7 @@ class Preferences(QDialog):
             elif isinstance(control,QSpinBox): control.setValue(round(value))
             elif isinstance(control,QCheckBox): control.setChecked(bool(value))
             else: control.setText(value)
-        self.top.setChecked(self.pet.on_top); self.notes.setChecked(self.pet.show_notes); self.pack.setCurrentIndex(self.pack.findData(self.pet.pack))
+        self.top.setChecked(self.pet.on_top); self.notes.setChecked(self.pet.show_notes)
         self.refresh_threads(); self.size_control.refresh(); self.editor.update_timing(); self.paint_color_buttons()
         self.connection_status.setText('当前数据目录：'+str(self.pet.monitor.home)); self.loading=False
         for combo in self.findChildren(QComboBox):widen(combo)

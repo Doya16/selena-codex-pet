@@ -47,9 +47,9 @@ STATES={
  'doubleclick':('双击回应','我在呢，听到你的呼唤了。'),
 }
 PACKS={
- # 花嫁：希声时装表情包；原皮：原版表情包（没有同名动作的事件用意思最接近的一张）
+ # 花嫁：希声时装表情包，16 种交互都有同名表情。原皮等其他表情包仍在素材库里，可在交互工作室按动作单独选用；
+ # 旧配置里的“原皮”预设读取时回到花嫁（见 __init__ / apply_settings）。
  '花嫁':dict(pet='hd1-13',doubleclick='hb-13',hover='hb-11',drag='hd1-06',drop='hd2-18',feed='hb-15',idle='hd2-14',thinking='hb-08',reading='hd1-16',writing='hd1-15',working='hd1-14',waiting='hd2-01',done='hb-01',error='hd1-10',paused='hb-03',unknown='hb-16'),
- '原皮':dict(pet='yb-07',doubleclick='yb-13',hover='yb-11',drag='yb-09',drop='ys-08',feed='yb-15',idle='ys-02',thinking='yb-08',reading='ys-07',writing='yb-05',working='ys-01',waiting='yb-12',done='yb-01',error='ys-11',paused='yb-03',unknown='yb-16'),
 }
 DEFAULT_PACK='花嫁'
 # Existing frames only. Reversible small motions use ping-pong; reactions play once.
@@ -788,9 +788,6 @@ class Pet(PetRenderer,QWidget):
         self.set_top(bool(data.get('on_top',True))); self.save_settings(); self.clear_override(); self.apply_style(); self.apply_icon(); self.update_layout(); self.refresh_quota()
         if self.binding_editor: self.binding_editor.populate_gallery(); self.binding_editor.load_selection()
 
-    def set_pack(self,pack):
-        self.pack=pack; self.settings['pack']=pack; self.save_settings(); self.clear_override()
-        if self.binding_editor: self.binding_editor.load_selection()
     def cancel_pointer_interaction(self):
         self.hover_timer.stop(); self.click_timer.stop(); self.hovered=False
         self.quota_press=None
