@@ -1,7 +1,7 @@
 <!-- README language switch -->
 [![中文](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-1677ff?style=for-the-badge)](README.md) [![English](https://img.shields.io/badge/English-555555?style=for-the-badge)](README.en.md)
 
-**v1.0.4**：休息提醒的“稍后再提醒”可以自己填等多久（1～240 分钟，默认 30），提醒卡片上的按钮按你填的分钟数显示。v1.0.3 补全了 33 条在素材导出时被截短的语音，已安装的桌宠更新后会自动换上完整版本，每句台词的结尾也不再被吞掉一小段。台词一旦开始就会完整说完，说话时点她、拖动她只换动作、不再打断；设置窗口打开即可看到全部预览。两套皮肤（花嫁 / 原皮）共 128 个表情，115 条赛琳娜语音按 16 种交互配好；完整包附带「一键部署」，之后在桌宠内一键更新。
+**v1.0.5**：去掉了“原皮”表情预设，默认表情固定为花嫁 · 希声时装；原皮等表情仍在表情库里，可在交互工作室给单个交互选用。v1.0.4 起休息提醒的“稍后再提醒”可以自己填等多久（1～240 分钟，默认 30），提醒卡片上的按钮按你填的分钟数显示。v1.0.3 补全了 33 条在素材导出时被截短的语音，已安装的桌宠更新后会自动换上完整版本，每句台词的结尾也不再被吞掉一小段。台词一旦开始就会完整说完，说话时点她、拖动她只换动作、不再打断；设置窗口打开即可看到全部预览。花嫁表情预设和共 128 张的表情库，115 条赛琳娜语音按 16 种交互配好；完整包附带「一键部署」，之后在桌宠内一键更新。
 
 <!-- /README language switch -->
 
@@ -23,7 +23,7 @@
 
 **系统要求**：Windows 10（1809 及以后）或 Windows 11，64 位；Windows 7 / 8 无法运行。建议先在 Windows 上安装并登录 **Codex**（没装也能先运行桌宠，之后再连接）。
 
-1. 打开 [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest)，下载 **Selena-Codex-Windows-v1.0.4.zip**。
+1. 打开 [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest)，下载 **Selena-Codex-Windows-v1.0.5.zip**。
 2. 解压：右键压缩包 →「全部解压缩」，或用 7-Zip / WinRAR 选「解压到 Selena-Codex-Windows-v…\」（和压缩包同名的文件夹）。
    - 不要选「解压到当前文件夹」：压缩包里没有外层文件夹，文件会散在下载目录里。
    - 不要解压到 `C:\Program Files` 这类不能写入的位置，也不要在压缩软件里直接双击运行。

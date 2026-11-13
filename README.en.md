@@ -1,7 +1,7 @@
 <!-- README language switch -->
 [![中文](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-555555?style=for-the-badge)](README.md) [![English](https://img.shields.io/badge/English-1677ff?style=for-the-badge)](README.en.md)
 
-**v1.0.4**: You choose how long "remind me later" on the rest reminder waits (1–240 minutes, 30 by default); the button on the reminder card shows your choice. Since v1.0.3, 33 voice lines that were cut short when the assets were exported are complete (an installed pet swaps in the full versions after updating), and the last moment of a line is no longer swallowed. A voice line, once started, is always said in full: clicking or dragging her while she speaks changes only her pose. The settings window shows every preview when it opens. Two skins (bridal / original) with 128 expressions, and 115 Selena voice lines set up for 16 interactions. The full package includes a one-click deploy script; later versions update from inside the pet.
+**v1.0.5**: The original-outfit expression preset is gone; Selena always starts from the bridal set, and the original stickers remain in the library for any single interaction. Since v1.0.4 you choose how long "remind me later" on the rest reminder waits (1–240 minutes, 30 by default); the button on the reminder card shows your choice. Since v1.0.3, 33 voice lines that were cut short when the assets were exported are complete (an installed pet swaps in the full versions after updating), and the last moment of a line is no longer swallowed. A voice line, once started, is always said in full: clicking or dragging her while she speaks changes only her pose. The settings window shows every preview when it opens. The bridal expression set and a library of 128 expressions, and 115 Selena voice lines set up for 16 interactions. The full package includes a one-click deploy script; later versions update from inside the pet.
 
 <!-- /README language switch -->
 
@@ -23,7 +23,7 @@ For **Windows 10/11 x64**. The full package includes the bridal expression set a
 
 **Requirements**: Windows 10 (1809 or later) or Windows 11, 64-bit; Windows 7 / 8 are not supported. Install and sign in to **Codex** on Windows first (the pet also runs without it; connect later).
 
-1. Open [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest) and download **Selena-Codex-Windows-v1.0.4.zip**.
+1. Open [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest) and download **Selena-Codex-Windows-v1.0.5.zip**.
 2. Extract it: right-click the ZIP → **Extract All**, or in 7-Zip / WinRAR choose **Extract to "Selena-Codex-Windows-v…\"** (a folder named after the ZIP).
    - Don't choose "Extract here": the ZIP has no top-level folder, so the files would spill into your Downloads folder.
    - Don't extract into a folder you cannot write to, such as `C:\Program Files`, and don't run it from inside the archive viewer.

@@ -2,7 +2,7 @@ import os,pathlib,sys
 ROOT=pathlib.Path(sys.executable).resolve().parent if getattr(sys,'frozen',False) else pathlib.Path(__file__).resolve().parents[1]
 if getattr(sys,'frozen',False) and ROOT.parent.name=='.programs':ROOT=ROOT.parent.parent
 CODEX_HOME=pathlib.Path(os.environ.get('CODEX_HOME',pathlib.Path.home()/'.codex'))
-VERSION='1.0.4'
+VERSION='1.0.5'
 APP_NAME='赛琳娜Codex桌宠启动'
 EXECUTABLE_NAME=APP_NAME+'.exe'
 PORTABLE_DIRNAME='赛琳娜Codex桌宠'
