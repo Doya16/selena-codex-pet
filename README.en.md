@@ -19,19 +19,29 @@
 
 For **Windows 10/11 x64**. The full package includes two skins with 128 GIFs, 115 Selena voice lines with subtitles, and fonts. Expressions, playback timing, bubbles, voices and appearance are preset. Extract the package, double-click the one-click deploy script and you are done; no Python installation is required.
 
-## Download and one-click deploy
+## Installation
 
-1. Install and sign in to **Codex** on Windows.
-2. Open [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest) and download **Selena-Codex-Windows-v1.0.4.zip**.
-3. **Extract the whole ZIP** into a writable folder, for example `D:\Selena`.
-4. Double-click **一键部署.cmd** (one-click deploy) in that folder. It:
+**Requirements**: Windows 10 (1809 or later) or Windows 11, 64-bit; Windows 7 / 8 are not supported. Install and sign in to **Codex** on Windows first (the pet also runs without it; connect later).
+
+1. Open [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest) and download **Selena-Codex-Windows-v1.0.4.zip**.
+2. Extract it: right-click the ZIP → **Extract All**, or in 7-Zip / WinRAR choose **Extract to "Selena-Codex-Windows-v…\"** (a folder named after the ZIP).
+   - Don't choose "Extract here": the ZIP has no top-level folder, so the files would spill into your Downloads folder.
+   - Don't extract into a folder you cannot write to, such as `C:\Program Files`, and don't run it from inside the archive viewer.
+3. Open the extracted folder and double-click **一键部署.cmd** (one-click deploy). It:
    - checks that the package is complete and the folder is writable;
    - checks for Codex (the pet still runs without it);
    - creates desktop and Start menu shortcuts;
    - starts Selena.
-5. Right-click the pet → **Settings**: choose the conversation to follow in **Connect Codex**, and change expressions and voices in the **Interaction Studio**.
+4. Right-click the pet → **Settings**: choose the conversation to follow in **Connect Codex**, and change expressions and voices in the **Interaction Studio**.
 
 Afterwards, start the pet from the desktop shortcut. You can also skip the script and run **赛琳娜Codex桌宠启动.exe** directly; the first launch creates a desktop shortcut too. Keep the other folders next to it.
+
+**If Windows or your security software stops it:**
+
+- If **Windows protected your PC** appears, click **More info** → **Run anyway**; if **Open File - Security Warning** appears, click **Run**. The program has no paid code-signing certificate, which is why Windows asks; it is not a virus.
+- If 360, Huorong or another security suite blocks it, add the folder to its trusted list. All source code is public on GitHub: [github.com/Doya16/selena-codex-pet](https://github.com/Doya16/selena-codex-pet). Every release page has a SHA256SUMS file for checking that your download is complete and unmodified.
+
+When a new version is out, the pet tells you; click **更新并重启赛琳娜** (update and restart Selena) to update in one step, keeping your settings and assets (see "One-click updates" below).
 
 Sound is on by default at 10% volume. Change it in Settings → Desktop & Sound.
 
