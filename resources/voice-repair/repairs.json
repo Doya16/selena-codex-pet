@@ -1,0 +1,241 @@
+{
+ "directory": "赛琳娜语音",
+ "since": [
+  "v1.0.0",
+  "v1.0.1",
+  "v1.0.2"
+ ],
+ "files": {
+  "003-单击3.ogg": {
+   "old": [
+    "d4a759633f677dc32eaa8eb2dcbdf775c660e68644b0b1632c0cd9355d57bdf2"
+   ],
+   "sha256": "ac7dbb798f0a6c81bc49dbf0a6cd976f29ff248e551ec7117c60fac0ae4212ca",
+   "bytes": 48339
+  },
+  "007-单击7.ogg": {
+   "old": [
+    "c921d5286b1474c799e86cb943fa4420a7ab8ab8081a3b2dbc9f6babd9590e78"
+   ],
+   "sha256": "b1a1b716a9d1b2fbd7d1de3f3343b0f33927ff023a5f8998e954cef06b82306b",
+   "bytes": 51186
+  },
+  "009-单击9.ogg": {
+   "old": [
+    "69b9f1f346de5e8928c801c83483a473a0f0ec3ecbed740e87f7f3385bb3ec60"
+   ],
+   "sha256": "685b0818af892f561375629df0e1475d32cb0e6e1b70dc93f31889bb653738fb",
+   "bytes": 75758
+  },
+  "012-单击12.ogg": {
+   "old": [
+    "fab449a9e49c7239030a5ac1e9b7155c93f70aca09575f06345ea8910186f88f"
+   ],
+   "sha256": "a759cd787ce1e18fc2535ea7f79f71d83850f76e6a5bc7c9ab706baec32c2db0",
+   "bytes": 43966
+  },
+  "016-双击角色1.ogg": {
+   "old": [
+    "4990ba52cef0049a975ae33944c2049d444cda4da8f24d6aa155876fa3d07502"
+   ],
+   "sha256": "bb64a637253d2fc86a960fd85f1e2ce153c473d8d32110145ac49640aa78a2c7",
+   "bytes": 48677
+  },
+  "017-双击角色2.ogg": {
+   "old": [
+    "a8e59c5edc6220f990c44d144e1bc2482411e8cfd782bc22304e84d5850c82f9"
+   ],
+   "sha256": "6ec33d5b8e03088490cfce0ba65f75a4163a589d24b831c668d6d1c6a968c08c",
+   "bytes": 87929
+  },
+  "018-双击角色3.ogg": {
+   "old": [
+    "8bab5dcbc72fd107b2389bfdf8d97c9aa815b251914c30ffb06450cb2921aa06"
+   ],
+   "sha256": "70ff2f6152fd15f88ec6474e40ae1b2b04dedcdc1c6dee92a188b124b0c8191d",
+   "bytes": 64517
+  },
+  "020-双击角色5.ogg": {
+   "old": [
+    "59073c91825c630181607d32c01643b5726e1f2f2b00e5972eeb4e655647be5b"
+   ],
+   "sha256": "95a931eefd71ec45602464bb4bcad2f291531daff9ec62e3d7c39ab345d0b386",
+   "bytes": 76375
+  },
+  "023-鼠标停留1.ogg": {
+   "old": [
+    "2e6a49efe00e4bad813a4f6d63b304a9c50295b630be87ecfa6fdf7ead4896c0"
+   ],
+   "sha256": "5eaca3838b87fc97ec285890f7c570cea3ee8867b5e05e27824f485f530e11b2",
+   "bytes": 72973
+  },
+  "041-松开8.ogg": {
+   "old": [
+    "978b1345e52c7d08c0f4c5bcb84aa5b24758ac33862d36e315922d39b1ba2240"
+   ],
+   "sha256": "b7771c5984d155a1e1142213382184c0a6c662e7a91049adf93a33c25b88b5cc",
+   "bytes": 48816
+  },
+  "043-递奶茶2.ogg": {
+   "old": [
+    "c711defa7c280863ec57fce11ccec54415772c30dc7fe9052a8a478a0f9921db"
+   ],
+   "sha256": "ade7ade5546492260b13ce6326632a74a58bd944bba42a94725860ec4eed4e23",
+   "bytes": 56640
+  },
+  "044-递奶茶3.ogg": {
+   "old": [
+    "31696080ad73eec541cc80fe63ebd0be177c493d6f92a5daffcfcbd8dfe793aa"
+   ],
+   "sha256": "e5d0d980da27afd7b2e0565a219b9be6572e24133b9ef2aaec1fcb531f304ad2",
+   "bytes": 74216
+  },
+  "046-递奶茶5.ogg": {
+   "old": [
+    "dc9802dcf554843f7645fff4af863764b77fa56a0e5671862990d0184f7ce5ba"
+   ],
+   "sha256": "8ff73bc2c54435d7670993068ad25ed39131c813aa28a25394fe8595d9071c0e",
+   "bytes": 77324
+  },
+  "051-待机陪伴2.ogg": {
+   "old": [
+    "485ff52b013c832a21f905d41905b0d4b83713707250aa6aa1c1d6c2523544c9"
+   ],
+   "sha256": "a2fb04f58008eecf15f4a8924a0f61c69750b14cbfd2d861a3ceb7aa6967912c",
+   "bytes": 83289
+  },
+  "055-待机陪伴6.ogg": {
+   "old": [
+    "511049dcf1482bbf3b074ddf329360cfbbcfd2194f59925f4750c57e516ccbf9"
+   ],
+   "sha256": "081d7e7581b3db911e756e8c112e7270389eda9fbbe401db97ca734b0b9556c2",
+   "bytes": 64109
+  },
+  "057-待机陪伴8.ogg": {
+   "old": [
+    "278b4494601968717d460a8488d37b7dad7d22b498f68cfba8480b8162ce6633"
+   ],
+   "sha256": "182704776a2e6e2835419e48a5239b6654c72a68551eee67f944bcd6d49c306d",
+   "bytes": 63141
+  },
+  "059-待机陪伴10.ogg": {
+   "old": [
+    "0b80dac0ed6ada27df1ec035160b7e18fe30e5f4479d5621d873587c2368d321"
+   ],
+   "sha256": "5a1d83ed48eb1fe31b4e01303c8f5155d37cdd7f53267fa0090db2b3ac98408c",
+   "bytes": 75770
+  },
+  "061-待机陪伴12.ogg": {
+   "old": [
+    "dcd024c5cab8425f6c811eb717665f75da2d6cc6cfa9b97de8e47acef680f4e9"
+   ],
+   "sha256": "16074e1271c6e204c3120651973fb2f6a7806f8a4c95fc1a7eae7b255ae69ae9",
+   "bytes": 85202
+  },
+  "062-待机陪伴13.ogg": {
+   "old": [
+    "0892123bb8978082a789354bc6bf42482691037f25e69dd00895f6605c28c000"
+   ],
+   "sha256": "a00dc16a4c0a9fe225baffe423aa34932802fc22cbddbfcd143385f1ecd78c21",
+   "bytes": 70095
+  },
+  "065-待机陪伴16.ogg": {
+   "old": [
+    "61d2cb7ca9c59701ccf29ab78ef63239afef386fe8ca8ed5cb3983c254c60d43"
+   ],
+   "sha256": "3f8102ef6f2e75f67b4f8853232248256d4011a7ecdbe3c8d39aac022c5f5b9e",
+   "bytes": 60239
+  },
+  "067-待机陪伴18.ogg": {
+   "old": [
+    "981503c4e2b18f8ff19a16ac8aa2a57cdc500804ad74e0c56aea50f1acb3cb07"
+   ],
+   "sha256": "8fd499b3dbefd91600c92df3b40f4e37816e49e3bf4b82c60b080764bf635e7e",
+   "bytes": 49102
+  },
+  "071-待机陪伴22.ogg": {
+   "old": [
+    "76dd8676a698ccb7f52f6b507d1b6e0c22fe9a377fbcecd4263ffbcc17a29e8a"
+   ],
+   "sha256": "b413221500482675fa14255ba54d97d7e31bd7c9b7e8ef2054409ea589349096",
+   "bytes": 90761
+  },
+  "074-待机陪伴25.ogg": {
+   "old": [
+    "b46bb79a2daa2ef721b11a1fc0f3793d91de82a0fe1e3a93a64182f0a499b5b1"
+   ],
+   "sha256": "8f47078ad8c5b665594f6c5af9bb002698c2378affeccf96d060046c17344656",
+   "bytes": 46234
+  },
+  "078-整理4.ogg": {
+   "old": [
+    "1017077b59e0dd501bcf452cd3cae494a9a5dfcb664266f9510c8a5bfcf0b84c"
+   ],
+   "sha256": "ac7dbb798f0a6c81bc49dbf0a6cd976f29ff248e551ec7117c60fac0ae4212ca",
+   "bytes": 48339
+  },
+  "079-整理5.ogg": {
+   "old": [
+    "e851db44cff93ca937b5794e304fc642dec57219e2d7bfec4e978c04a714c33c"
+   ],
+   "sha256": "ec6fda2ec446536f607a92f39f50979cd071b7bcb4316830f573abc52251327a",
+   "bytes": 43880
+  },
+  "081-整理7.ogg": {
+   "old": [
+    "e1b98b246a666747edfde3282b03b349dc361e90d228891333ca287ccad2116b"
+   ],
+   "sha256": "0d581d4e1ca4c860bb7e1bc09db665d0b3b120f3ffebc1bdc36530136918d0ff",
+   "bytes": 41635
+  },
+  "087-整理13.ogg": {
+   "old": [
+    "824a5de70d004dfc122df59d58eae6c6b1abee95c69c328c9102969948d4e912"
+   ],
+   "sha256": "26027667a51d7c27b5285f2bef63ad2e05c81e52ae44c15be14fa582666095a0",
+   "bytes": 56734
+  },
+  "100-任务完成3.ogg": {
+   "old": [
+    "4eeac345486aa0c9f1854d7f3df1ed962328259faa3acf438fe5f5f3ace2b03d"
+   ],
+   "sha256": "d55404a01fc765ab89abccb121704e68423b01d43c85f6b8f51e466ff5babf24",
+   "bytes": 41625
+  },
+  "101-任务完成4.ogg": {
+   "old": [
+    "7f7f9ccab38bb488a3155c9d6156384d1c02ea6fab46d384cd32f71752d6a5c9"
+   ],
+   "sha256": "3b0b5638839f44c80ddbc29e5a97499ec0d8c29de590b449378231150cf8e136",
+   "bytes": 64831
+  },
+  "105-任务完成8.ogg": {
+   "old": [
+    "655eee8f93018a1e33cdba26e3ef815ae86c05a78f7f7fbcabd46849a96f3fd9"
+   ],
+   "sha256": "c6f445009c73d4b9e940f759bca649ea33cd555bb2f752c9e1615557300037de",
+   "bytes": 53134
+  },
+  "109-任务完成12.ogg": {
+   "old": [
+    "17d11e9fecabaa2b9e61179774c9e3e75a83d0118f15336250e9e42a355fbb6e"
+   ],
+   "sha256": "d3a831684121ca4a0d3497f948642f11e76ed321a158a84155331e77d2f23aa0",
+   "bytes": 54009
+  },
+  "111-任务出错2.ogg": {
+   "old": [
+    "72ff6b9223fa06fd388014f13be6cde374b56bb3c78e98bc3f39712ef56006ba"
+   ],
+   "sha256": "a1300967ecb37cfbb920c7f2f8517c831c2f16eee98b6fb52cfd5b19e668fe16",
+   "bytes": 34328
+  },
+  "115-任务暂停1.ogg": {
+   "old": [
+    "c9520e58ffb5e12966948106a3f07762a3fa1d744372e087a87b0b17ecbb0eb1"
+   ],
+   "sha256": "cad75adb5d7e3dcc2e1cdc00e1c6d73f38ffa81827a7daaa22806f6ec820a9a9",
+   "bytes": 51817
+  }
+ }
+}

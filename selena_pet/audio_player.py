@@ -76,7 +76,8 @@ class VoicePlayer(QObject):
     def _finish(self,how='播完'):
         if not self.busy: return
         length=self.player.duration()/1000
-        played='未开始' if self.played_at is None else f'{time.monotonic()-self.played_at:.1f}/{length:.1f} 秒'
+        # The player adds a moment of silence after each line (pcm_player.TAIL_SECONDS); it is not part of the line.
+        played='未开始' if self.played_at is None else f'{min(time.monotonic()-self.played_at,length):.1f}/{length:.1f} 秒'
         self.note(f'{how}（{played}）')
         self.busy=False; self.owner=None; self.played_at=None; self.next_path=None; self.watchdog.stop(); self.changed.emit()
         if self.queued:

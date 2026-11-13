@@ -12,6 +12,7 @@ from .studio import BindingEditor
 from .preferences import Preferences
 from .appearance import appearance,load_fonts,stylesheet,font
 from .audio_player import VoicePlayer
+from .voice_repair import repair as repair_voice_lines
 from .config_io import save_atomic,migrate_settings
 from .renderer import PetRenderer,SpeechBubble
 from .binding_editor import TRIGGERS
@@ -141,7 +142,11 @@ class Pet(PetRenderer,QWidget):
         self.client_lifetime=ClientLifetime()
         self.worker.client_exited.connect(self.on_client_exit)
         self.voice=VoicePlayer(ROOT,self); self.preview_audio_clip=None; self.voice.accept=self.accept_queued_line
-        if not offline: self.voice.log_path=ROOT/'voice-log.txt'
+        if not offline:
+            self.voice.log_path=ROOT/'voice-log.txt'
+            # Shipped lines fixed by this release replace the unchanged earlier copies (never the user's own files).
+            fixed=repair_voice_lines(ROOT,self.audio_directory())
+            if fixed: self.voice.note(f'已换成完整版本：{len(set(fixed))} 条语音')
         self.bubble_window=SpeechBubble(self); self.voice.changed.connect(self.on_voice_changed)
         from .cost_float import CostFloat
         self.cost_float=CostFloat(self)

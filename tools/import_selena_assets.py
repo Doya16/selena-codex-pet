@@ -2,6 +2,7 @@
 
 Usage:
   python tools/import_selena_assets.py --gifs <workbench>/library --export <workbench>/export/selena-<stamp>
+  python tools/import_selena_assets.py --audio-only --export <workbench>/export/selena-<stamp>
 
 - Every GIF from both skins is resized to 300x300 (transparency and frame timing kept) into assets/originals.
 - assets/catalog.json lists them with pack and skin.
@@ -28,6 +29,8 @@ SUBS = {'原皮': {'pet': '害羞', 'drag': '我擦', 'drop': '敬礼', 'idle': 
 STATES = ['pet', 'doubleclick', 'hover', 'drag', 'drop', 'feed', 'idle', 'thinking', 'reading', 'writing', 'working',
           'waiting', 'done', 'error', 'paused', 'unknown']
 AUDIO_DIR = '赛琳娜语音'
+# OGG name -> SHA-256 of the exported WAV it was encoded from (maintainer record; not shipped)
+SOURCES = ROOT / 'tools' / 'voice-sources.json'
 
 
 def sha(p):
@@ -86,23 +89,45 @@ def skin_sets(export_events, by_pack_name):
     return sets
 
 
+def seconds(path):
+    """Decoded length, never the container's claim (a length header can be wrong)."""
+    r = subprocess.run([FFMPEG, '-hide_banner', '-loglevel', 'error', '-i', str(path), '-f', 's16le', '-ac', '1', '-ar', '48000', '-'],
+                       capture_output=True, check=True)
+    return len(r.stdout) / 2 / 48000
+
+
 def import_audio(export):
+    """Encode the exported lines. A line whose exported WAV is unchanged (tools/voice-sources.json) keeps its OGG
+    byte for byte, so a release only replaces the lines that really changed (see tools/make_voice_repair.py)."""
     man = json.loads((export / 'bindings.json').read_text(encoding='utf-8'))
     out = ROOT / 'defaults' / 'audio'
-    for old in out.iterdir():
-        shutil.rmtree(old) if old.is_dir() else old.unlink()
-    target = out / AUDIO_DIR; target.mkdir(parents=True)
-    clips, n = {}, 0
+    target = out / AUDIO_DIR; target.mkdir(parents=True, exist_ok=True)
+    known = json.loads(SOURCES.read_text(encoding='utf-8')) if SOURCES.exists() else {}
+    clips, n, record, kept, encoded = {}, 0, {}, set(), 0
     for state in STATES:
         e = man['events'][state]; clips[state] = []
         for i, c in enumerate(e['audio_clips'], 1):
             n += 1
             title = f'{n:03}-{e["label"].split(" /")[0].split("/")[0].strip()}{i}'
             title = re.sub(r'[\\/:*?"<>|\s]+', '', title)
-            dst = target / f'{title}.ogg'
-            subprocess.run([FFMPEG, '-hide_banner', '-loglevel', 'error', '-y', '-i', str(export / c['file']), '-c:a', 'libvorbis', '-q:a', '6', str(dst)], check=True)
+            dst = target / f'{title}.ogg'; src = export / c['file']; digest = sha(src)
+            if not (dst.exists() and known.get(dst.name) == digest):
+                # bitexact: the same WAV always gives the same OGG (no random stream serial, no encoder tag)
+                subprocess.run([FFMPEG, '-hide_banner', '-loglevel', 'error', '-y', '-i', str(src), '-c:a', 'libvorbis', '-q:a', '6',
+                                '-fflags', '+bitexact', '-flags:a', '+bitexact', str(dst)], check=True)
+                if abs(seconds(dst) - seconds(src)) > 0.03:
+                    raise SystemExit(f'{dst.name}: encoded length differs from {c["file"]}')
+                encoded += 1
             dst.with_suffix('.txt').write_text(c['subtitle'] + '\n', encoding='utf-8', newline='\n')
+            record[dst.name] = digest; kept |= {dst.name, dst.with_suffix('.txt').name}
             clips[state].append({'file': f'{AUDIO_DIR}/{dst.name}', 'subtitle': c['subtitle'], 'title': title, 'enabled': True})
+    for old in out.iterdir():
+        if old.is_dir() and old != target: shutil.rmtree(old)
+        elif old.is_file(): old.unlink()
+    for old in target.iterdir():
+        if old.name not in kept: old.unlink()
+    SOURCES.write_text(json.dumps(record, ensure_ascii=False, indent=1) + '\n', encoding='utf-8', newline='\n')
+    print(f'voice lines {n}, re-encoded {encoded}')
     return man['events'], clips
 
 
@@ -124,8 +149,15 @@ def write_defaults(clips):
 
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('--gifs', required=True); ap.add_argument('--export', required=True)
+    ap = argparse.ArgumentParser(); ap.add_argument('--gifs'); ap.add_argument('--export', required=True)
+    ap.add_argument('--audio-only', action='store_true', help='only the voice lines; GIFs and the catalog stay as they are')
     a = ap.parse_args()
+    if a.audio_only:
+        _, clips = import_audio(pathlib.Path(a.export)); write_defaults(clips)
+        print(f'clips {sum(len(v) for v in clips.values())}')
+        return
+    if not a.gifs:
+        ap.error('--gifs is required unless --audio-only')
     catalog, by_pack_name = import_gifs(pathlib.Path(a.gifs))
     events, clips = import_audio(pathlib.Path(a.export))
     write_defaults(clips)
