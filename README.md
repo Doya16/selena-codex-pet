@@ -20,8 +20,9 @@
 [下载 Windows 版](https://github.com/Doya16/selena-codex-pet/releases/latest) · [使用指南](docs/USAGE.md) · [问题反馈](https://github.com/Doya16/selena-codex-pet/issues) · [English](README.en.md)
 <!-- DEMO-LINKS：视频定稿后，在“下载 Windows 版”后面加 [完整演示](<Release 附件 mp4 链接>)；发到 B 站后再加 [B站视频](<链接>)。 -->
 
-<!-- COVER：封面定稿后换成 ![赛琳娜 Codex 桌宠](docs/social/cover-landscape.jpg)，下一行加 [横屏封面](docs/social/cover-landscape.jpg) · [4:3 封面](docs/social/cover-4x3.jpg)。 -->
-![赛琳娜在 16 种交互里的表情（花嫁）](docs/images/events-bridal.jpg)
+![赛琳娜 Codex 桌宠：已送达，请签收！](docs/social/cover-landscape.jpg)
+
+[横屏封面](docs/social/cover-landscape.jpg) · [4:3 封面](docs/social/cover-4x3.jpg)
 
 </div>
 
@@ -86,6 +87,8 @@
 | 鼠标互动 | 任务状态 | 其他 |
 | --- | --- | --- |
 | 单击摸头、双击、鼠标停留、拖动中、松开放下、递奶茶 | 思考、查阅资料、编辑内容、执行工具、等待你回应、任务完成、任务出错、任务暂停 | 待机陪伴、状态未更新 |
+
+![赛琳娜在 16 种交互里的表情（花嫁）](docs/images/events-bridal.jpg)
 
 表情库里还有原皮、社区包、圣诞和新年系列，加上花嫁一共 **128 张**。在 **设置 → 交互工作室** 里，可以给任意一种交互单独换成其中任意一张，也可以导入自己的图片。
 

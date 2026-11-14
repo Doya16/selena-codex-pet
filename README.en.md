@@ -20,8 +20,9 @@
 [Download for Windows](https://github.com/Doya16/selena-codex-pet/releases/latest) · [User guide (Chinese)](docs/USAGE.md) · [Report an issue](https://github.com/Doya16/selena-codex-pet/issues) · [中文](README.md)
 <!-- DEMO-LINKS: when the video is final, add [Watch the demo](<release asset mp4 link>) after "Download for Windows"; add the Bilibili link if it is published there. -->
 
-<!-- COVER: when the cover is chosen, replace the image below with ![Selena Codex Desktop Pet](docs/social/cover-landscape.jpg) and add [Landscape cover](docs/social/cover-landscape.jpg) · [4:3 cover](docs/social/cover-4x3.jpg) on the next line. -->
-![Selena's expressions for the 16 interactions (bridal outfit)](docs/images/events-bridal.jpg)
+![Selena Codex Desktop Pet: delivered, please sign for her!](docs/social/cover-landscape.jpg)
+
+[Landscape cover](docs/social/cover-landscape.jpg) · [4:3 cover](docs/social/cover-4x3.jpg)
 
 </div>
 
@@ -86,6 +87,8 @@ The default is the **bridal outfit (Pianissimo)** sticker set, with a matching e
 | Mouse | Task states | Other |
 | --- | --- | --- |
 | pat (click), double-click, hover, drag, drop, milk tea | thinking, reading, editing, running tools, waiting for you, done, error, paused | idle, status not updated |
+
+![Selena's expressions for the 16 interactions (bridal outfit)](docs/images/events-bridal.jpg)
 
 The library also has the original-outfit, community, Christmas and New Year sets: **128 stickers** in all, bridal included. In **Settings → Interaction Studio** you can give any interaction any of them, or import your own images.
 
