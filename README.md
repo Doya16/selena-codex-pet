@@ -1,6 +1,8 @@
 <!-- README language switch -->
 [![中文](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-1677ff?style=for-the-badge)](README.md) [![English](https://img.shields.io/badge/English-555555?style=for-the-badge)](README.en.md)
 
+**v1.0.6**：一键更新后自动删除旧的程序版本：以前每次更新都会多留一份约 265 MB 的旧程序，现在新版启动两分钟后清理掉，只保留当前版本；还在使用的旧版本留到下次再删。
+
 **v1.0.5**：去掉了“原皮”表情预设，默认表情固定为花嫁 · 希声时装；原皮等表情仍在表情库里，可在交互工作室给单个交互选用。
 
 **v1.0.4**：休息提醒的“稍后再提醒”可以自己填等多久（1～240 分钟，默认 30），提醒卡片上的按钮按你填的分钟数显示。
@@ -34,7 +36,7 @@
 
 **系统要求**：Windows 10（1809 及以后）或 Windows 11，64 位；Windows 7 / 8 无法运行。建议先在 Windows 上安装并登录 **Codex**（没装也能先运行桌宠，之后再连接）。
 
-1. 打开 [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest)，下载 **Selena-Codex-Windows-v1.0.5.zip**。
+1. 打开 [Releases](https://github.com/Doya16/selena-codex-pet/releases/latest)，下载 **Selena-Codex-Windows-v1.0.6.zip**。
 2. 解压：右键压缩包 →「全部解压缩」，或用 7-Zip / WinRAR 选「解压到 Selena-Codex-Windows-v…\」（和压缩包同名的文件夹）。
    - 不要选「解压到当前文件夹」：压缩包里没有外层文件夹，文件会散在下载目录里。
    - 不要解压到 `C:\Program Files` 这类不能写入的位置，也不要在压缩软件里直接双击运行。
